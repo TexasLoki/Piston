@@ -13,9 +13,9 @@
     </properties>
 
     <scm>
-        <developerConnection>scm:git:git@github.com:StickyPiston/PistonAPI.git</developerConnection>
-        <connection>scm:git:git://github.com/StickyPiston/PistonAPI.git</connection>
-        <url>https://github.com/StickyPiston/PistonAPI/tree/master/</url>
+        <developerConnection>scm:git:git@github.com:StickyPiston/Piston.git</developerConnection>
+        <connection>scm:git:git://github.com/StickyPiston/Piston.git</connection>
+        <url>https://github.com/StickyPiston/Piston/tree/master/</url>
     </scm>
 
 
