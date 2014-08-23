@@ -5,7 +5,7 @@ import org.pistonmc.logging.Logger;
 import java.io.File;
 import java.net.URLClassLoader;
 
-public class JavaPlugin {
+public class JavaPlugin implements Plugin {
 
     private URLClassLoader loader;
     private File file;

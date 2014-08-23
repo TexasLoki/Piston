@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-public class PluginManager<T extends JavaPlugin> {
+public class PluginManager<T extends Plugin> {
 
     private Logger logger;
     private File folder;
@@ -46,8 +46,8 @@ public class PluginManager<T extends JavaPlugin> {
         return folder;
     }
 
-    public JavaPlugin getPlugin(Class<? extends JavaPlugin> clazz) {
-        for(JavaPlugin plugin : plugins) {
+    public Plugin getPlugin(Class<? extends Plugin> clazz) {
+        for(Plugin plugin : plugins) {
             if(plugin.getClass().equals(clazz)) {
                 return plugin;
             }
@@ -56,12 +56,12 @@ public class PluginManager<T extends JavaPlugin> {
         return null;
     }
 
-    public JavaPlugin getPlugin(String name) {
+    public Plugin getPlugin(String name) {
         return getPlugin(name, true);
     }
 
-    public JavaPlugin getPlugin(String name, boolean sensitive) {
-        for(JavaPlugin plugin : plugins) {
+    public Plugin getPlugin(String name, boolean sensitive) {
+        for(Plugin plugin : plugins) {
             String pluginName = plugin.getDescription().getName();
             if(!sensitive) {
                 pluginName = pluginName.toLowerCase();
@@ -167,8 +167,8 @@ public class PluginManager<T extends JavaPlugin> {
             return null;
         }
 
-        if(!JavaPlugin.class.isAssignableFrom(plugin)) {
-            logger.info("Invalid " + config + " for " + name + ": " + main + " is not assignable from " + JavaPlugin.class.getSimpleName());
+        if(!Plugin.class.isAssignableFrom(plugin)) {
+            logger.info("Invalid " + config + " for " + name + ": " + main + " is not assignable from " + Plugin.class.getSimpleName());
             return null;
         }
 
@@ -203,11 +203,11 @@ public class PluginManager<T extends JavaPlugin> {
         return plugin;
     }
 
-    public boolean unload(JavaPlugin plugin) {
+    public boolean unload(Plugin plugin) {
         plugins.remove(plugin);
         plugin.setEnabled(false);
         try {
-            ((URLClassLoader) new SimpleObject(plugin, JavaPlugin.class).field("loader").value()).close();
+            ((URLClassLoader) new SimpleObject(plugin, Plugin.class).field("loader").value()).close();
             return true;
         } catch(Exception ex) {
             logger.log("Could not unload " + plugin.getDescription().getName() + ": ", ex);
@@ -226,7 +226,7 @@ public class PluginManager<T extends JavaPlugin> {
     }
 
     public void reload(boolean enable) {
-        for(JavaPlugin plugin : plugins) {
+        for(Plugin plugin : plugins) {
             plugin.setEnabled(false);
         }
 
@@ -255,7 +255,7 @@ public class PluginManager<T extends JavaPlugin> {
         }
 
         if(enable) {
-            for(JavaPlugin plugin : plugins) {
+            for(Plugin plugin : plugins) {
                 plugin.setEnabled(true);
             }
         }
