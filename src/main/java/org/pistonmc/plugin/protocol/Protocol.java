@@ -1,9 +1,9 @@
 package org.pistonmc.plugin.protocol;
 
+import org.pistonmc.plugin.JavaPlugin;
 import org.pistonmc.protocol.Client;
-import org.pistonmc.plugin.Plugin;
 
-public abstract class Protocol extends Plugin {
+public abstract class Protocol extends JavaPlugin {
 
     private Client client;
 
