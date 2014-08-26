@@ -4,7 +4,7 @@ import org.pistonmc.exception.protocol.packet.PacketException;
 
 import java.io.IOException;
 
-public class HandshakePacket extends IncommingPacket {
+public class HandshakePacket extends IncomingPacket {
 
     private int version;
     private String address;

@@ -4,9 +4,9 @@ import org.pistonmc.exception.protocol.packet.IllegalPacketDestinationException;
 import org.pistonmc.exception.protocol.packet.PacketException;
 import org.pistonmc.protocol.stream.PacketOutputStream;
 
-public abstract class IncommingPacket extends Packet {
+public abstract class IncomingPacket extends Packet {
 
-    protected IncommingPacket(ProtocolState state, int id) {
+    protected IncomingPacket(ProtocolState state, int id) {
         super(state, id);
     }
 
