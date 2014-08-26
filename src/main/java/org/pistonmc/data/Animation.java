@@ -10,7 +10,7 @@ public enum Animation {
     MAGIC_CRITICAL(5),
     UNKNOWN(102),
     CROUCH(103),
-    UNCROUNCH(104);
+    UNCROUCH(104);
 
     private int id;
 
