@@ -71,4 +71,8 @@ public class PacketInputStream extends DataInputStream {
         return (double) readByte() / 32;
     }
 
+    public float readRotation() throws IOException {
+        return (float) (readByte() / 360) * 256F;
+    }
+
 }

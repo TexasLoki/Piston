@@ -54,4 +54,9 @@ public class PacketOutputStream extends DataOutputStream {
         writeByte(i);
     }
 
+    public void writeRotation(float value) throws IOException {
+        int i = (int) (value * 256D) / 360;
+        writeByte(i);
+    }
+
 }
