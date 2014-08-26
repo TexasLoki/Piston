@@ -20,6 +20,17 @@ public class PacketInputStream extends DataInputStream {
         return new String(data, UTF8);
     }
 
+    public String[] readStringArray() throws IOException {
+        short size = readShort();
+
+        String[] array = new String[size];
+        for(int i = 0; i < array.length; i++) {
+            array[i] = readString();
+        }
+
+        return array;
+    }
+
     public int readVarInt() throws IOException {
         int i = 0;
         int j = 0;

@@ -15,6 +15,13 @@ public class PacketOutputStream extends DataOutputStream {
         write(string.getBytes("UTF-8"));
     }
 
+    public void writeStringArray(String[] array) throws IOException {
+        writeShort(array.length);
+        for(String string : array) {
+            writeString(string);
+        }
+    }
+
     public void writeVarInt(int paramInt) throws IOException {
         while(true) {
             if((paramInt & 0xFFFFFF80) == 0) {
