@@ -49,9 +49,14 @@ public class PacketOutputStream extends DataOutputStream {
         writeShort(data & 0xFFFF);
     }
 
-    public void writeFixedPointNumber(double value) throws IOException {
+    public void writeFixedPointByte(double value) throws IOException {
         int i = (int) value * 32;
         writeByte(i);
+    }
+
+    public void writeFixedPointInt(double value) throws IOException {
+        int i = (int) value * 32;
+        writeInt(i);
     }
 
     public void writeRotation(float value) throws IOException {
