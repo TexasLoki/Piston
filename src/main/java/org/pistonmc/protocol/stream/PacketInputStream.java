@@ -67,4 +67,8 @@ public class PacketInputStream extends DataInputStream {
         return data;
     }
 
+    public double readFixedPointNumber() throws IOException {
+        return (double) readByte() / 32;
+    }
+
 }
