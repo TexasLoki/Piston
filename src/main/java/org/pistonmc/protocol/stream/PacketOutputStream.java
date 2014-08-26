@@ -41,4 +41,12 @@ public class PacketOutputStream extends DataOutputStream {
         write(data);
     }
 
+    public void writeUnsignedByte(int data) throws IOException {
+        write(data);
+    }
+
+    public void writeUnsignedShort(int data) throws IOException {
+        writeShort(data & 0xFFFF);
+    }
+
 }
