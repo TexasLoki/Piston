@@ -6,7 +6,7 @@ public class UnsupportedProtocolException extends ProtocolException {
 
     private String reason;
 
-    public UnsupportedProtocolException(String version, String reason) {
+    public UnsupportedProtocolException(int version, String reason) {
         super(version, "Protocol v" + version + " is not supported: " + reason);
         this.reason = reason;
     }

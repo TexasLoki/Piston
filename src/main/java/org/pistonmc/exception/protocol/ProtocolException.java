@@ -2,14 +2,14 @@ package org.pistonmc.exception.protocol;
 
 public class ProtocolException extends Exception {
 
-    private String protocol;
+    private int protocol;
 
-    public ProtocolException(String protocol, String message) {
+    public ProtocolException(int protocol, String message) {
         super(message);
         this.protocol = protocol;
     }
 
-    public String getProtocol() {
+    public int getProtocol() {
         return protocol;
     }
 

@@ -5,7 +5,7 @@ import org.pistonmc.exception.protocol.ProtocolException;
 import org.pistonmc.exception.protocol.ProtocolNotFoundException;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.PluginManager;
-import org.pistonmc.protocol.Client;
+import org.pistonmc.protocol.PlayerConnection;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ProtocolManager extends PluginManager<Protocol> {
 
-    private Map<String, Protocol> protocols;
+    private Map<Integer, Protocol> protocols;
 
     public ProtocolManager(Logger logger, File folder) {
         super(logger, folder, "protocol.json");
@@ -25,17 +25,17 @@ public class ProtocolManager extends PluginManager<Protocol> {
         return Lists.newArrayList(protocols.values());
     }
 
-    public Protocol find(String version) throws ProtocolException {
+    public Protocol find(int version) throws ProtocolException {
         return find(version, null);
     }
 
-    public Protocol find(String version, Client client) throws ProtocolException {
+    public Protocol find(int version, PlayerConnection connection) throws ProtocolException {
         Protocol result = protocols.get(version);
         if(result == null) {
             throw new ProtocolNotFoundException(version);
         }
 
-        return result.create(client);
+        return result.create(connection);
     }
 
 }

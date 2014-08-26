@@ -6,7 +6,7 @@ public class IllegalProtocolException extends ProtocolException {
 
     private String reason;
 
-    public IllegalProtocolException(String version, String reason) {
+    public IllegalProtocolException(int version, String reason) {
         super(version, "Protocol v" + version + " could not be created: " + reason);
         this.reason = reason;
     }
