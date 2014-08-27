@@ -24,7 +24,7 @@ public enum ChatColor {
     LIGHT_PURPLE('d', Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.MAGENTA).boldOff().toString()),
     YELLOW('e', Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.YELLOW).boldOff().toString()),
     WHITE('f', Ansi.ansi().a(Attribute.RESET).fg(Ansi.Color.WHITE).boldOff().toString()),
-    MAGIC('k', Ansi.ansi().a(Attribute.BLINK_SLOW).toString()),
+    MAGIC('k', "obfuscated", Ansi.ansi().a(Attribute.BLINK_SLOW).toString()),
     BOLD('l', Ansi.ansi().bold().toString()),
     STRIKETHROUGH('m', Ansi.ansi().a(Attribute.STRIKETHROUGH_ON).toString()),
     UNDERLINE('n', Ansi.ansi().a(Attribute.UNDERLINE).toString()),
@@ -35,13 +35,30 @@ public enum ChatColor {
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
 
     private char code;
+    private String name;
     private String console;
-    private String toString;
+    private String string;
 
     ChatColor(char code, String string) {
         this.code = code;
         this.console = string;
-        this.toString = new String(new char[]{COLOR_CHAR, code});
+        this.name = name().toLowerCase();
+        this.string = new String(new char[]{COLOR_CHAR, code});
+    }
+
+    ChatColor(char code, String name, String string) {
+        this.code = code;
+        this.name = name;
+        this.console = string;
+        this.string = new String(new char[]{COLOR_CHAR, code});
+    }
+
+    public char getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String toConsole() {
@@ -50,7 +67,7 @@ public enum ChatColor {
 
     @Override
     public String toString() {
-        return toString;
+        return string;
     }
 
     public static ChatColor getByChar(char code) {
@@ -84,6 +101,10 @@ public enum ChatColor {
         }
 
         return input;
+    }
+
+    public static ChatColor[] format() {
+        return new ChatColor[]{MAGIC, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC};
     }
 
 }
