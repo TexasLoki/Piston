@@ -203,6 +203,26 @@ public class PluginManager<T extends Plugin> {
         return plugin;
     }
 
+    public T load(T plugin, T parent, String name, String version) {
+        SimpleObject parentObject = new SimpleObject(parent);
+        SimpleObject object = new SimpleObject(plugin);
+        object.field("handler").set(this);
+        object.field("loader").set(parentObject.field("loader").value());
+        object.field("file").set(parentObject.field("file").value());
+
+        PluginDescription description = new PluginDescription(name, version, parent.getDescription().getAuthors());
+        object.field("description").set(description);
+        object.field("logger").set(Logging.getLogger(description.getName(), logger));
+        object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
+        object.field("config").set(new JSONObject());
+        // plugin.readConfig();
+
+        plugin.onLoad();
+
+        plugin.getLogger().info("Loaded " + description.getName() + " v" + description.getVersion());
+        return plugin;
+    }
+
     public boolean unload(Plugin plugin) {
         plugins.remove(plugin);
         plugin.setEnabled(false);

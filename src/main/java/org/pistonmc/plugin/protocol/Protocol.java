@@ -8,35 +8,42 @@ import org.pistonmc.protocol.packet.IncomingPacket;
 import org.pistonmc.protocol.packet.Packet;
 import org.pistonmc.protocol.packet.ProtocolState;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Protocol extends JavaPlugin {
 
-    private static Map<ProtocolState, Map<Integer, Class<? extends IncomingPacket>>> packets;
-
+    private Map<ProtocolState, Map<Integer, Class<? extends IncomingPacket>>> packets;
+    private Protocol parent;
     protected int version;
     protected PlayerConnection connection;
 
     protected Protocol(int version) {
-        this(version, null);
-    }
-
-    protected Protocol(int version, PlayerConnection connection) {
         this.version = version;
-        this.connection = connection;
         packets = new HashMap<>();
         for(ProtocolState state : ProtocolState.values()) {
             packets.put(state, new HashMap<Integer, Class<? extends IncomingPacket>>());
         }
     }
 
+    protected Protocol(Protocol parent, PlayerConnection connection) {
+        this(parent.version);
+        this.parent = parent;
+        this.packets = parent.packets;
+        this.connection = connection;
+    }
+
     protected void add(IncomingPacket packet) {
-        packets.get(packet.getState()).put(packet.getId(), packet.getClass());
+        if(parent != null) {
+            parent.add(packet);
+        } else {
+            packets.get(packet.getState()).put(packet.getId(), packet.getClass());
+        }
     }
 
     public Class<? extends IncomingPacket> find(ProtocolState state, int id) {
-        return packets.get(state).get(id);
+        return parent != null ? parent.find(state, id) : packets.get(state).get(id);
     }
 
     public IncomingPacket create(ProtocolState state, int id) throws IllegalProtocolException {
@@ -49,7 +56,7 @@ public abstract class Protocol extends JavaPlugin {
         }
     }
 
-    public abstract void handle(Packet packet) throws PacketException;
+    public abstract void handle(IncomingPacket packet) throws PacketException, IOException;
 
     public abstract Protocol create(PlayerConnection connection);
 
