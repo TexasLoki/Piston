@@ -1,7 +1,8 @@
 package org.pistonmc;
 
+import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
-import org.pistonmc.plugin.PluginManager;
+import org.pistonmc.plugin.JavaPluginManager;
 import org.pistonmc.plugin.protocol.ProtocolManager;
 
 public interface Server {
@@ -10,7 +11,9 @@ public interface Server {
 
     public ProtocolManager getProtocolManager();
 
-    public PluginManager getPluginManager();
+    public JavaPluginManager getPluginManager();
+
+    public EventManager getEventManager();
 
     public void shutdown();
 

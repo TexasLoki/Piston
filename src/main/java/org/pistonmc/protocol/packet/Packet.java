@@ -2,6 +2,7 @@ package org.pistonmc.protocol.packet;
 
 import org.pistonmc.exception.protocol.packet.PacketException;
 import org.pistonmc.protocol.stream.PacketOutputStream;
+import org.pistonmc.util.ClassUtils;
 
 import java.io.IOException;
 
@@ -26,5 +27,10 @@ public abstract class Packet {
     public abstract void read(UnreadPacket packet) throws PacketException, IOException;
 
     public abstract void write(PacketOutputStream stream) throws PacketException, IOException;
+
+    @Override
+    public String toString() {
+        return ClassUtils.build(this);
+    }
 
 }
