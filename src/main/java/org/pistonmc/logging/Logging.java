@@ -4,6 +4,8 @@ import static org.pistonmc.logging.LogLevel.INFO;
 
 public class Logging {
 
+    private static Logger global = getLogger((String) null);
+
     public static Logger getLogger(String name, Logger parent, LogLevel level) {
         Logger logger = new Logger(name, level);
         logger.setParent(parent);
@@ -23,7 +25,7 @@ public class Logging {
     }
 
     public static Logger getLogger(String name, LogLevel level) {
-        return getLogger(name, null, level);
+        return getLogger(name, global, level);
     }
 
     public static Logger getLogger(Class<?> clazz, LogLevel level) {
@@ -31,7 +33,7 @@ public class Logging {
     }
 
     public static Logger getLogger(String name) {
-        return getLogger(name, (Logger) null);
+        return getLogger(name, global);
     }
 
     public static Logger getLogger(Class<?> clazz) {
@@ -39,7 +41,7 @@ public class Logging {
     }
 
     public static Logger getLogger() {
-        return getLogger((String) null);
+        return global;
     }
 
 }
