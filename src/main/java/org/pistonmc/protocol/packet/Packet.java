@@ -30,7 +30,7 @@ public abstract class Packet {
 
     @Override
     public String toString() {
-        return ClassUtils.build(this);
+        return ClassUtils.build(this, true);
     }
 
 }

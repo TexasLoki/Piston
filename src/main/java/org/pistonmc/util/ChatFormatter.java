@@ -75,21 +75,21 @@ public class ChatFormatter {
         return message.toString();
     }
 
-    public static JSONObject serialize(String string) {
+    public static String serialize(String string) {
         String splitter = ChatColor.COLOR_CHAR + "";
+        if(!string.contains(splitter)) {
+            return '"' + string + '"';
+        }
+
         JSONObject object = new JSONObject();
 
         Map<ChatColor, String> message = new HashMap<>();
-        if(string.contains(splitter)) {
-            String[] split = string.split(splitter);
-            for(String str : split) {
-                ChatColor color = ChatColor.getByChar(str.charAt(0));
-                str = str.substring(1);
-                Logging.getLogger().debug("Read '" + str.charAt(0) + "': \"" + str + "\"");
-                message.put(color, str);
-            }
-        } else {
-            message.put(null, string);
+        String[] split = string.split(splitter);
+        for(String str : split) {
+            ChatColor color = ChatColor.getByChar(str.charAt(0));
+            str = str.substring(1);
+            Logging.getLogger().debug("Read '" + str.charAt(0) + "': \"" + str + "\"");
+            message.put(color, str);
         }
 
         JSONObject current = object;
@@ -117,7 +117,7 @@ public class ChatFormatter {
             }
         }
 
-        return object;
+        return object.toString(2);
     }
 
     private static <T> List<T> asList(T[] array) {

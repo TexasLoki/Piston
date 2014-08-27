@@ -298,6 +298,7 @@ public class PluginManager<T extends Plugin> {
 
     protected void enable(T plugin) {
         plugin.setEnabled(true);
+        Piston.getEventManager().register(plugin);
     }
 
 }

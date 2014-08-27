@@ -1,10 +1,11 @@
 package org.pistonmc.plugin;
 
+import org.pistonmc.event.Listener;
 import org.pistonmc.logging.Logger;
 
 import java.io.File;
 
-public interface Plugin {
+public interface Plugin extends Listener {
 
     public PluginDescription getDescription();
 
