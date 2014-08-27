@@ -1,12 +1,12 @@
 package org.pistonmc.logging;
 
-import in.parapengu.craftbot.bot.ChatColor;
-import in.parapengu.craftbot.util.ClassUtils;
+import org.pistonmc.ChatColor;
+import org.pistonmc.util.ClassUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static in.parapengu.craftbot.logging.LogLevel.*;
+import static org.pistonmc.logging.LogLevel.*;
 
 public class Logger {
 
