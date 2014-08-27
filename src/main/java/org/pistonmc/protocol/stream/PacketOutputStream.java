@@ -2,6 +2,7 @@ package org.pistonmc.protocol.stream;
 
 import com.evilco.mc.nbt.stream.NbtOutputStream;
 import com.evilco.mc.nbt.tag.ITag;
+import org.pistonmc.inventory.ItemStack;
 import org.pistonmc.protocol.data.Metadata;
 
 import java.io.DataOutputStream;
@@ -77,6 +78,17 @@ public class PacketOutputStream extends DataOutputStream {
 
     public void writeMetadata(Metadata metadata) throws IOException {
         metadata.write(this);
+    }
+
+    public void writeItemStack(ItemStack item) throws IOException {
+        if(item != null) {
+            writeShort(item.getTypeId());
+            writeByte(item.getAmount());
+            writeShort((short) item.getData().getData());
+            writeNBT(item.getCompound());
+        } else {
+            writeShort(-1);
+        }
     }
 
     public void writeNBT(ITag tag) throws IOException {
