@@ -113,6 +113,7 @@
                                     <include>org.json:json</include>
                                     <include>org.yaml:snakeyaml</include>
                                     <include>commons-io:commons-io</include>
+                                    <include>com.evilco.mc:nbt</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

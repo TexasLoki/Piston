@@ -38,4 +38,11 @@ public class ProtocolManager extends PluginManager<Protocol> {
         return result.create(connection);
     }
 
+    @Override
+    public void enable(Protocol plugin) {
+        super.enable(plugin);
+        int version = Integer.parseInt(plugin.getDescription().getVersion());
+        protocols.put(version, plugin);
+    }
+
 }

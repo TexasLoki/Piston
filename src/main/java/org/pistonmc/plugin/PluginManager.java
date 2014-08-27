@@ -85,7 +85,6 @@ public class PluginManager<T extends Plugin> {
             return null;
         }
 
-        logger.info("Attempting to pull " + config + " from " + file.getPath());
         ZipEntry entry = jar.getEntry(config);
         String string;
         try {
@@ -204,6 +203,10 @@ public class PluginManager<T extends Plugin> {
     }
 
     public T load(T plugin, T parent, String name, String version) {
+        return load(plugin, parent, name, version, false);
+    }
+
+    public T load(T plugin, T parent, String name, String version, boolean add) {
         SimpleObject parentObject = new SimpleObject(parent);
         SimpleObject object = new SimpleObject(plugin);
         object.field("loader").set(parentObject.field("loader").value());
@@ -216,9 +219,12 @@ public class PluginManager<T extends Plugin> {
         // object.field("config").set(new JSONObject());
         // plugin.readConfig();
 
-        plugin.onLoad();
+        load(plugin);
 
         plugin.getLogger().info("Loaded " + description.getName() + " v" + description.getVersion());
+        if(add) {
+            plugins.add(plugin);
+        }
         return plugin;
     }
 
@@ -245,7 +251,7 @@ public class PluginManager<T extends Plugin> {
     }
 
     public void reload(boolean enable) {
-        for(Plugin plugin : plugins) {
+        for(T plugin : plugins) {
             plugin.setEnabled(false);
         }
 
@@ -274,10 +280,24 @@ public class PluginManager<T extends Plugin> {
         }
 
         if(enable) {
-            for(Plugin plugin : plugins) {
-                plugin.setEnabled(true);
+            for(T plugin : plugins) {
+                enable(plugin);
             }
         }
+    }
+
+    public void enable() {
+        for(T plugin : plugins) {
+            enable(plugin);
+        }
+    }
+
+    protected void load(T plugin) {
+        plugin.onLoad();
+    }
+
+    protected void enable(T plugin) {
+        plugin.setEnabled(true);
     }
 
 }

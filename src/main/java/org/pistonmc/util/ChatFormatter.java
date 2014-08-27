@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.pistonmc.ChatColor;
+import org.pistonmc.logging.Logging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,12 +79,17 @@ public class ChatFormatter {
         String splitter = ChatColor.COLOR_CHAR + "";
         JSONObject object = new JSONObject();
 
-        String[] split = string.split(splitter);
         Map<ChatColor, String> message = new HashMap<>();
-        for(String str : split) {
-            ChatColor color = ChatColor.getByChar(str.charAt(0));
-            str = str.substring(1);
-            message.put(color, str);
+        if(string.contains(splitter)) {
+            String[] split = string.split(splitter);
+            for(String str : split) {
+                ChatColor color = ChatColor.getByChar(str.charAt(0));
+                str = str.substring(1);
+                Logging.getLogger().debug("Read '" + str.charAt(0) + "': \"" + str + "\"");
+                message.put(color, str);
+            }
+        } else {
+            message.put(null, string);
         }
 
         JSONObject current = object;
@@ -92,12 +98,14 @@ public class ChatFormatter {
             ChatColor color = entry.getKey();
             String text = entry.getValue();
 
-            if(format.contains(color)) {
-                if(!current.has(color.getName())) {
-                    current.put(color.getName(), true);
+            if(color != null) {
+                if(format.contains(color)) {
+                    if(!current.has(color.getName())) {
+                        current.put(color.getName(), true);
+                    }
+                } else {
+                    current.put("color", color.name());
                 }
-            } else {
-                current.put("color", color.name());
             }
 
             if((text != null && text.length() > 0) || !format.contains(color)) {
