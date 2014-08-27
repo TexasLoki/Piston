@@ -24,6 +24,10 @@
             <id>maven-repo</id>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
+        <repository>
+            <id>komp-repo</id>
+            <url>http://repo.kompking.info/nexus/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -58,6 +62,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.evilco.mc</groupId>
+            <artifactId>nbt</artifactId>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <!-- Testing -->
         <dependency>

@@ -1,5 +1,7 @@
 package org.pistonmc.protocol.stream;
 
+import com.evilco.mc.nbt.stream.NbtInputStream;
+import com.evilco.mc.nbt.tag.ITag;
 import org.pistonmc.protocol.data.DataObject;
 import org.pistonmc.protocol.data.Metadata;
 
@@ -130,6 +132,11 @@ public class PacketInputStream extends DataInputStream {
         }
 
         return metadata;
+    }
+
+    public ITag readNBT() throws IOException {
+        NbtInputStream stream = new NbtInputStream(this);
+        return stream.readTag();
     }
 
 }
