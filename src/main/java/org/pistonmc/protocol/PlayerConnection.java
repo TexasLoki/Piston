@@ -9,4 +9,6 @@ public interface PlayerConnection {
 
     public void sendPacket(OutgoingPacket packet) throws PacketException, IOException;
 
+    public void close();
+
 }
