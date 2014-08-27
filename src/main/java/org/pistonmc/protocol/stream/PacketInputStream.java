@@ -1,5 +1,8 @@
 package org.pistonmc.protocol.stream;
 
+import org.pistonmc.protocol.data.DataObject;
+import org.pistonmc.protocol.data.Metadata;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,6 +91,45 @@ public class PacketInputStream extends DataInputStream {
 
     public float readRotation() throws IOException {
         return (float) (readByte() / 360) * 256F;
+    }
+
+    public Metadata readMetadata() throws IOException {
+        Metadata metadata = new Metadata();
+
+        byte item;
+        while((item = readByte()) != 127) {
+            int index = item & 0x1F;
+            byte type = (byte) (item >> 5);
+
+            DataObject<?> object = null;
+            switch(type) {
+                case 0:
+                    object = new DataObject<>(index, type, readByte());
+                    break;
+                case 1:
+                    object = new DataObject<>(index, type, readShort());
+                    break;
+                case 2:
+                    object = new DataObject<>(index, type, readInt());
+                    break;
+                case 3:
+                    object = new DataObject<>(index, type, readFloat());
+                    break;
+                case 4:
+                    object = new DataObject<>(index, type, readString());
+                    break;
+                case 5:
+                    // object = new DataObject<>(index, type, readSlot());
+                    break;
+                case 6:
+                    // object = new DataObject<>(index, type, readLocation());
+                    break;
+            }
+
+            metadata.put(index, object);
+        }
+
+        return metadata;
     }
 
 }

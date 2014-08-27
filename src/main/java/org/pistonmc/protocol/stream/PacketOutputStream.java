@@ -1,5 +1,7 @@
 package org.pistonmc.protocol.stream;
 
+import org.pistonmc.protocol.data.Metadata;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -69,6 +71,10 @@ public class PacketOutputStream extends DataOutputStream {
     public void writeRotation(float value) throws IOException {
         int i = (int) (value * 256D) / 360;
         writeByte(i);
+    }
+
+    public void writeMetadata(Metadata metadata) throws IOException {
+        metadata.write(this);
     }
 
 }
