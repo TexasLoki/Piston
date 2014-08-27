@@ -74,13 +74,8 @@ public class ChatFormatter {
         return message.toString();
     }
 
-    public static String serialize(String string) {
+    public static JSONObject serialize(String string) {
         String splitter = ChatColor.COLOR_CHAR + "";
-
-        if(!string.contains(splitter)) {
-            return '"' + string + '"';
-        }
-
         JSONObject object = new JSONObject();
 
         String[] split = string.split(splitter);
@@ -114,7 +109,7 @@ public class ChatFormatter {
             }
         }
 
-        return object.toString(2);
+        return object;
     }
 
     private static <T> List<T> asList(T[] array) {
