@@ -2,6 +2,7 @@ package org.pistonmc.protocol.stream;
 
 import com.evilco.mc.nbt.stream.NbtInputStream;
 import com.evilco.mc.nbt.tag.ITag;
+import com.evilco.mc.nbt.tag.TagCompound;
 import org.pistonmc.inventory.ItemStack;
 import org.pistonmc.protocol.data.DataObject;
 import org.pistonmc.protocol.data.Metadata;
@@ -142,14 +143,18 @@ public class PacketInputStream extends DataInputStream {
             byte stackSize = readByte();
             short damage = readShort();
             item = new ItemStack(id, stackSize, damage);
-            item.setCompound(readNBT());
+            item.setCompound(readCompound());
         }
         return item;
     }
 
-    public ITag readNBT() throws IOException {
+    public ITag readTag() throws IOException {
         NbtInputStream stream = new NbtInputStream(this);
         return stream.readTag();
+    }
+
+    public TagCompound readCompound() throws IOException {
+        return (TagCompound) readTag();
     }
 
 }

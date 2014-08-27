@@ -1,6 +1,6 @@
 package org.pistonmc.inventory;
 
-import com.evilco.mc.nbt.tag.ITag;
+import com.evilco.mc.nbt.tag.TagCompound;
 import org.pistonmc.inventory.material.Material;
 import org.pistonmc.inventory.material.MaterialData;
 import org.pistonmc.util.ClassUtils;
@@ -10,7 +10,7 @@ public class ItemStack {
 	private int type;
 	private int amount;
 	private short durability;
-	private ITag compound;
+	private TagCompound compound;
 	private MaterialData data;
 
 	public ItemStack(int type) {
@@ -86,11 +86,11 @@ public class ItemStack {
 		this.durability = durability;
 	}
 
-	public ITag getCompound() {
+	public TagCompound getCompound() {
 		return compound;
 	}
 
-	public void setCompound(ITag compound) {
+	public void setCompound(TagCompound compound) {
 		this.compound = compound;
 	}
 

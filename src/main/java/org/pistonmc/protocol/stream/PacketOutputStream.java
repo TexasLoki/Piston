@@ -2,6 +2,7 @@ package org.pistonmc.protocol.stream;
 
 import com.evilco.mc.nbt.stream.NbtOutputStream;
 import com.evilco.mc.nbt.tag.ITag;
+import com.evilco.mc.nbt.tag.TagCompound;
 import org.pistonmc.inventory.ItemStack;
 import org.pistonmc.protocol.data.Metadata;
 
@@ -85,15 +86,19 @@ public class PacketOutputStream extends DataOutputStream {
             writeShort(item.getTypeId());
             writeByte(item.getAmount());
             writeShort((short) item.getData().getData());
-            writeNBT(item.getCompound());
+            writeCompound(item.getCompound());
         } else {
             writeShort(-1);
         }
     }
 
-    public void writeNBT(ITag tag) throws IOException {
+    public void writeTag(ITag tag) throws IOException {
         NbtOutputStream stream = new NbtOutputStream(this);
         stream.write(tag);
+    }
+
+    public void writeCompound(TagCompound compound) throws IOException {
+        writeTag(compound);
     }
 
 }
