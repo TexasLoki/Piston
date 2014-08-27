@@ -85,12 +85,13 @@ public class PluginManager<T extends Plugin> {
             return null;
         }
 
-        ZipEntry entry = jar.getEntry("plugin.json");
+        logger.info("Attempting to pull " + config + " from " + file.getPath());
+        ZipEntry entry = jar.getEntry(config);
         String string;
         try {
             InputStream stream = jar.getInputStream(entry);
             string = IOUtils.toString(stream);
-        } catch(IOException ex) {
+        } catch(Exception ex) {
             logger.log("Could not load plugin at " + file.getPath() + ": ", ex);
             return null;
         }
@@ -188,13 +189,12 @@ public class PluginManager<T extends Plugin> {
         T plugin = construct(clazz);
 
         SimpleObject object = new SimpleObject(plugin, clazz);
-        object.field("handler").set(this);
         object.field("loader").set(loader);
         object.field("file").set(file);
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
-        object.field("config").set(new JSONObject());
+        // object.field("config").set(new JSONObject());
         // plugin.readConfig();
 
         plugin.onLoad();
@@ -206,7 +206,6 @@ public class PluginManager<T extends Plugin> {
     public T load(T plugin, T parent, String name, String version) {
         SimpleObject parentObject = new SimpleObject(parent);
         SimpleObject object = new SimpleObject(plugin);
-        object.field("handler").set(this);
         object.field("loader").set(parentObject.field("loader").value());
         object.field("file").set(parentObject.field("file").value());
 
@@ -214,7 +213,7 @@ public class PluginManager<T extends Plugin> {
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
-        object.field("config").set(new JSONObject());
+        // object.field("config").set(new JSONObject());
         // plugin.readConfig();
 
         plugin.onLoad();

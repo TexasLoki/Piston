@@ -1,5 +1,10 @@
 package org.pistonmc.util.reflection;
 
+import org.pistonmc.logging.Logging;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class SimpleObject {
 
     private Class<?> type;
@@ -19,19 +24,33 @@ public class SimpleObject {
     }
 
     public SimpleMethod method(String name, Class<?>... params) {
-        try {
-            return new SimpleMethod(this, type.getDeclaredMethod(name, params));
-        } catch(NoSuchMethodException e) {
-            return null;
-        }
+        Method method = null;
+
+        Class<?> cls = type;
+        do {
+            try {
+                method = cls.getDeclaredMethod(name, params);
+            } catch(NoSuchMethodException ignored) {}
+
+            cls = cls.getSuperclass();
+        } while(method == null && cls != Object.class);
+
+        return method == null ? null : new SimpleMethod(this, method);
     }
 
     public SimpleField field(String name) {
-        try {
-            return new SimpleField(this, type.getDeclaredField(name));
-        } catch(NoSuchFieldException e) {
-            return null;
-        }
+        Field field = null;
+
+        Class<?> cls = type;
+        do {
+            try {
+                field = cls.getDeclaredField(name);
+            } catch(NoSuchFieldException ignored) {}
+
+            cls = cls.getSuperclass();
+        } while(field == null && cls != Object.class);
+
+        return field == null ? null : new SimpleField(this, field);
     }
 
 }
