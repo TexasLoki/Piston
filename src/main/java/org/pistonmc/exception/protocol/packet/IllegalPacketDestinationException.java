@@ -3,7 +3,7 @@ package org.pistonmc.exception.protocol.packet;
 import org.pistonmc.protocol.packet.Packet;
 import org.pistonmc.protocol.packet.PacketDestination;
 
-import static org.pistonmc.protocol.packet.PacketDestination.*;
+import static org.pistonmc.protocol.packet.PacketDestination.CLIENT;
 
 public class IllegalPacketDestinationException extends PacketException {
 

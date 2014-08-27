@@ -4,51 +4,51 @@ import java.lang.reflect.Field;
 
 public class SimpleField {
 
-	private SimpleObject parent;
-	private Field field;
+    private SimpleObject parent;
+    private Field field;
 
-	public SimpleField(SimpleObject parent, Field field) {
-		this.parent = parent;
-		this.field = field;
-		this.field.setAccessible(true);
-	}
+    public SimpleField(SimpleObject parent, Field field) {
+        this.parent = parent;
+        this.field = field;
+        this.field.setAccessible(true);
+    }
 
-	public Class<?> result() {
-		return field.getType();
-	}
+    public Class<?> result() {
+        return field.getType();
+    }
 
-	public Object value() {
-		return value(result());
-	}
+    public Object value() {
+        return value(result());
+    }
 
-	public <T> T value(Class<T> result) {
-		try {
-			return (T) field.get(parent.getObject());
-		} catch(IllegalAccessException e) {
-			e.printStackTrace();
-		}
+    public <T> T value(Class<T> result) {
+        try {
+            return (T) field.get(parent.getObject());
+        } catch(IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
     public SimpleObject object() {
         return new SimpleObject(value());
     }
 
-	public boolean set(Object value) {
-		return set(result(), value);
-	}
+    public boolean set(Object value) {
+        return set(result(), value);
+    }
 
-	public <T> boolean set(Class<T> result, Object value) {
-		try {
-			field.set(parent.getObject(), (T) value);
-			return true;
-		} catch(IllegalAccessException e) {
-			e.printStackTrace();
-		}
+    public <T> boolean set(Class<T> result, Object value) {
+        try {
+            field.set(parent.getObject(), (T) value);
+            return true;
+        } catch(IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     public SimpleField resultSet(Object value) {
         return resultSet(result(), value);
