@@ -3,6 +3,7 @@ package org.pistonmc.protocol.stream;
 import com.evilco.mc.nbt.stream.NbtInputStream;
 import com.evilco.mc.nbt.tag.ITag;
 import com.evilco.mc.nbt.tag.TagCompound;
+import org.json.JSONObject;
 import org.pistonmc.inventory.ItemStack;
 import org.pistonmc.protocol.data.DataObject;
 import org.pistonmc.protocol.data.Metadata;
@@ -155,6 +156,11 @@ public class PacketInputStream extends DataInputStream {
 
     public TagCompound readCompound() throws IOException {
         return (TagCompound) readTag();
+    }
+
+    public JSONObject readJSON() throws IOException {
+        String string = readString();
+        return new JSONObject(string);
     }
 
 }

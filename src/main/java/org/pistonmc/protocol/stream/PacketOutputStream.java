@@ -3,6 +3,7 @@ package org.pistonmc.protocol.stream;
 import com.evilco.mc.nbt.stream.NbtOutputStream;
 import com.evilco.mc.nbt.tag.ITag;
 import com.evilco.mc.nbt.tag.TagCompound;
+import org.json.JSONObject;
 import org.pistonmc.inventory.ItemStack;
 import org.pistonmc.protocol.data.Metadata;
 
@@ -99,6 +100,10 @@ public class PacketOutputStream extends DataOutputStream {
 
     public void writeCompound(TagCompound compound) throws IOException {
         writeTag(compound);
+    }
+
+    public void writeJSON(JSONObject json) throws IOException {
+        writeString(json.toString(2));
     }
 
 }
