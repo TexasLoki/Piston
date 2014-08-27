@@ -1,3 +1,4 @@
 package org.pistonmc.event;
 
-public interface Listener {}
+public interface Listener {
+}

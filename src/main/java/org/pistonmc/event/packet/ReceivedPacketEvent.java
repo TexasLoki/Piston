@@ -4,9 +4,9 @@ import org.pistonmc.protocol.packet.IncomingPacket;
 
 public class ReceivedPacketEvent extends PacketEvent {
 
-	public ReceivedPacketEvent(IncomingPacket packet) {
-		super(packet);
-	}
+    public ReceivedPacketEvent(IncomingPacket packet) {
+        super(packet);
+    }
 
     @Override
     public IncomingPacket getPacket() {

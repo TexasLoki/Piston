@@ -4,9 +4,9 @@ import org.pistonmc.protocol.packet.OutgoingPacket;
 
 public class SentPacketEvent extends PacketEvent {
 
-	public SentPacketEvent(OutgoingPacket packet) {
-		super(packet);
-	}
+    public SentPacketEvent(OutgoingPacket packet) {
+        super(packet);
+    }
 
     @Override
     public OutgoingPacket getPacket() {

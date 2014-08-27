@@ -9,10 +9,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventHandler {
 
-	public EventPriority value() default EventPriority.NORMAL;
+    public EventPriority value() default EventPriority.NORMAL;
 
-	public boolean ignoreCancelled() default true;
+    public boolean ignoreCancelled() default true;
 
-	public boolean classMatches() default true;
+    public boolean classMatches() default true;
 
 }
