@@ -1,5 +1,6 @@
 package org.pistonmc.protocol.data;
 
+import org.pistonmc.inventory.ItemStack;
 import org.pistonmc.protocol.stream.PacketOutputStream;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class DataObject<T> {
                 stream.writeString((String) value);
                 break;
             case 5:
-                // stream.writeSlot((Slot) value);
+                stream.writeItemStack((ItemStack) value);
                 break;
             case 6:
                 // stream.writeLocation((Location) value);

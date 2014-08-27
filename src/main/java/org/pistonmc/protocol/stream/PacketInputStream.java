@@ -122,7 +122,7 @@ public class PacketInputStream extends DataInputStream {
                     object = new DataObject<>(index, type, readString());
                     break;
                 case 5:
-                    // object = new DataObject<>(index, type, readSlot());
+                    object = new DataObject<>(index, type, readItemStack());
                     break;
                 case 6:
                     // object = new DataObject<>(index, type, readLocation());
