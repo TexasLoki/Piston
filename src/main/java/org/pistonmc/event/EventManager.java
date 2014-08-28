@@ -1,6 +1,5 @@
 package org.pistonmc.event;
 
-import com.google.common.collect.Lists;
 import org.pistonmc.Piston;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.logging.Logging;
@@ -30,18 +29,13 @@ public class EventManager<E extends Event> {
         Class<?> clazz = listener.getClass();
 
         Method[] methods = clazz.getMethods();
-        logger.debug(Lists.newArrayList(methods) + " from " + listener.getClass().getSimpleName());
         for(Method method : methods) {
-            String display = method.getName() + "()";
             if(!method.isAnnotationPresent(EventHandler.class)) {
-                logger.debug("Could not load " + display + " because " + EventHandler.class.getSimpleName() + " was not present");
                 continue;
             }
 
             EventHandler handler = method.getAnnotation(EventHandler.class);
             if(method.getParameterTypes().length != 1) {
-                int length = method.getParameterTypes().length;
-                logger.debug("Could not load " + display + " it had " + (length < 1 ? "less than" : "more than") + " one parameter");
                 continue;
             }
 
@@ -50,13 +44,10 @@ public class EventManager<E extends Event> {
             try {
                 event = (Class<? extends E>) parameter;
             } catch(Exception ex) {
-                logger.debug("Could not load " + display + " because " + parameter.getSimpleName() + " is not an instance of " + Event.class.getSimpleName());
                 continue;
             }
 
-            display = method.getName() + "(" + event.getSimpleName() + ")";
             if(events == null) {
-                logger.debug("Events is null wat");
                 continue;
             }
 
@@ -66,7 +57,6 @@ public class EventManager<E extends Event> {
                 events.put(event, prioritised);
             }
 
-            logger.debug("Registered " + display + " from " + listener.getClass().getSimpleName());
             prioritised.add(listener, handler, method, event);
         }
     }
