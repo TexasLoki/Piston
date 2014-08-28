@@ -32,4 +32,8 @@ public class CommandArguments {
         return resp;
     }
 
+    public String getCommand() {
+        return array[0];
+    }
+
 }
