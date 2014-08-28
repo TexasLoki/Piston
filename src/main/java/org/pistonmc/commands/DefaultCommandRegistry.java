@@ -29,10 +29,10 @@ public class DefaultCommandRegistry implements CommandRegistry {
         }
 
         Command command = null;
-        for(Command c : commandList) {
-            for(String s : c.getAliases()) {
+        for(Command cmd : commandList) {
+            for(String s : cmd.getAliases()) {
                 if(s.equalsIgnoreCase(args[0])) {
-                    command = c;
+                    command = cmd;
                 }
             }
         }
@@ -54,8 +54,19 @@ public class DefaultCommandRegistry implements CommandRegistry {
     }
 
     @Override
-    public void addCommand(Command c) {
-        commandList.add(c);
+    public Command addCommand(Command command) {
+        commandList.add(command);
+        return command;
+    }
+
+    @Override
+    public Command addCommand(Class<?> cls) {
+        return null;
+    }
+
+    @Override
+    public Command build(Class<?> cls) {
+        return null;
     }
 
     @Override
