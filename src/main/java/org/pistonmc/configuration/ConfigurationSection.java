@@ -173,8 +173,15 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
     public List<String> getStringList(String path) {
         try {
-            return (List<String>) get("path");
+            List<?> objects = getList(path);
+            List<String> strings = new ArrayList<>();
+            for(Object object : objects) {
+                strings.add((String) object);
+            }
+
+            return strings;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -185,7 +192,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
     public List getList(String path) {
         try {
-            return (List) get("path");
+            return (List) get(path);
         } catch (Exception e) {
             return null;
         }
