@@ -1,6 +1,7 @@
 package org.pistonmc.util;
 
 import com.google.common.collect.Lists;
+import org.pistonmc.ChatColor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -65,7 +66,7 @@ public class ClassUtils {
                         value = objects;
                     }
 
-                    string.append(field.getName()).append("=").append("[").append(value != null ? value : "null").append("]");
+                    string.append(field.getName()).append("=").append("[").append(value != null ? value : "null").append(ChatColor.RESET).append("]");
                     previous = true;
                 }
             }
