@@ -107,6 +107,18 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         set(path, value);
     }
 
+    public Boolean getBoolean(String path) {
+        try {
+            return (Boolean) get(path);
+        } catch(Exception e) {
+            return null;
+        }
+    }
+
+    public void setBoolean(String path, boolean value) {
+        set(path, value);
+    }
+
     public Integer getInteger(String path) {
         try {
             return (int) get(path);

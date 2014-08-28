@@ -20,6 +20,9 @@ public interface Configuration {
     public String getString(String path);
     public void setString(String path, String value);
 
+    public Boolean getBoolean(String path);
+    public void setBoolean(String path, boolean value);
+
     public Integer getInteger(String path);
     public void setInteger(String path, int value);
 
