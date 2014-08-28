@@ -9,14 +9,14 @@ import java.util.UUID;
 
 public interface World {
 
-	public UUID getUniqueId();
+    public UUID getUniqueId();
 
-	public String getName();
+    public String getName();
 
-	public List<Entity> getEntities();
+    public List<Entity> getEntities();
 
-	public List<LivingEntity> getLivingEntities();
+    public List<LivingEntity> getLivingEntities();
 
-	public List<Player> getPlayers();
+    public List<Player> getPlayers();
 
 }

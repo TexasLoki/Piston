@@ -9,14 +9,14 @@ public interface Entity {
 
     public String getName();
 
-	public int getEntityId();
+    public int getEntityId();
 
     public UUID getUniqueId();
 
-	public Location getLocation();
+    public Location getLocation();
 
-	public World getWorld();
+    public World getWorld();
 
-	public boolean isDead();
+    public boolean isDead();
 
 }

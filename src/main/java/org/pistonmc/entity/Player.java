@@ -10,10 +10,10 @@ public interface Player extends LivingEntity, CommandSender {
 
     public void setDisplayName(String name);
 
-	public String getPlayerListName();
+    public String getPlayerListName();
 
-	public void setPlayerListName(String name);
+    public void setPlayerListName(String name);
 
-	public InetSocketAddress getAddress();
+    public InetSocketAddress getAddress();
 
 }
