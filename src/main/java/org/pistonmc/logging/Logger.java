@@ -1,6 +1,8 @@
 package org.pistonmc.logging;
 
 import org.pistonmc.ChatColor;
+import org.pistonmc.Piston;
+import org.pistonmc.event.error.ExceptionCaughtEvent;
 import org.pistonmc.util.ClassUtils;
 
 import java.text.SimpleDateFormat;
@@ -85,7 +87,13 @@ public class Logger {
     }
 
     public Logger log(LogLevel level, Object pre, Object... messages) {
-        if (level == DEBUG && !isDebug()) {
+        for (Object o : messages) {
+            if (o instanceof Exception) {
+                Piston.getEventManager().call(new ExceptionCaughtEvent((Exception) o));
+            }
+        }
+
+        if(level == DEBUG && !isDebug()) {
             return this;
         }
 
