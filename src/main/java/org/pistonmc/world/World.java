@@ -19,4 +19,8 @@ public interface World {
 
     public List<Player> getPlayers();
 
+    public Chunk getChunk(int x, int z);
+
+    public Block getBlock(int x, int y, int z);
+
 }
