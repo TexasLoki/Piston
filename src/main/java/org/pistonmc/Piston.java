@@ -1,5 +1,6 @@
 package org.pistonmc;
 
+import org.pistonmc.commands.CommandRegistry;
 import org.pistonmc.configuration.file.Config;
 import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
@@ -39,6 +40,10 @@ public class Piston {
 
     public static EventManager getEventManager() {
         return server.getEventManager();
+    }
+
+    public static CommandRegistry getCommandRegistry() {
+        return server.getCommandRegistry();
     }
 
     public static void shutdown() {

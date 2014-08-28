@@ -1,5 +1,6 @@
 package org.pistonmc;
 
+import org.pistonmc.commands.CommandRegistry;
 import org.pistonmc.configuration.file.Config;
 import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
@@ -17,6 +18,8 @@ public interface Server {
     public JavaPluginManager getPluginManager();
 
     public EventManager getEventManager();
+
+    public CommandRegistry getCommandRegistry();
 
     public void shutdown();
 
