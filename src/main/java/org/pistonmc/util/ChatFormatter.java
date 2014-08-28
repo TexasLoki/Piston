@@ -1,5 +1,6 @@
 package org.pistonmc.util;
 
+import com.google.common.collect.ArrayListMultimap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,49 +76,77 @@ public class ChatFormatter {
         return message.toString();
     }
 
-    public static String serialize(String string) {
+    public static JSONObject serialize(String string) {
         String splitter = ChatColor.COLOR_CHAR + "";
-        if(!string.contains(splitter)) {
-            return '"' + string + '"';
-        }
-
         JSONObject object = new JSONObject();
 
-        Map<ChatColor, String> message = new HashMap<>();
-        String[] split = string.split(splitter);
-        for(String str : split) {
-            ChatColor color = ChatColor.getByChar(str.charAt(0));
-            str = str.substring(1);
-            Logging.getLogger().debug("Read '" + str.charAt(0) + "': \"" + str + "\"");
-            message.put(color, str);
+        List<ColorString> message = new ArrayList<>();
+        if(string.contains(splitter)) {
+            String[] split = string.split(splitter);
+            for(String str : split) {
+                if(str.length() < 1) {
+                    continue;
+                }
+
+                char ch = str.charAt(0);
+                ChatColor color = ChatColor.getByChar(ch);
+                str = str.substring(1);
+                Logging.getLogger().debug("Read '" + ch + "': \"" + str + "\"");
+                message.add(new ColorString(color, str));
+            }
+
+            Logging.getLogger().debug(message);
+        } else {
+            message.add(new ColorString(null, string));
         }
 
         JSONObject current = object;
+        JSONArray array = null;
         List<ChatColor> format = asList(ChatColor.format());
-        for(Entry<ChatColor, String> entry : message.entrySet()) {
-            ChatColor color = entry.getKey();
-            String text = entry.getValue();
 
-            if(color != null) {
-                if(format.contains(color)) {
-                    if(!current.has(color.getName())) {
-                        current.put(color.getName(), true);
+        List<ChatColor> colors = new ArrayList<>();
+
+        int pos = 1;
+        for(ColorString entry : message) {
+            ChatColor color = entry.getColor();
+            String text = entry.getString();
+
+            if(!format.contains(color)) {
+                colors.clear();
+            }
+
+            colors.add(color);
+            for(ChatColor col : colors) {
+                if(col != null) {
+                    if(format.contains(col)) {
+                        if(!current.has(col.getName())) {
+                            current.put(col.getName(), true);
+                        }
+                    } else {
+                        current.put("color", col.getName().toLowerCase());
                     }
-                } else {
-                    current.put("color", color.name());
                 }
             }
 
             if((text != null && text.length() > 0) || !format.contains(color)) {
                 text = text != null ? text : "";
                 current.put("text", text);
-                JSONObject extra = new JSONObject();
-                current.put("extra", extra);
-                current = extra;
+
+                if(message.size() > pos) {
+                    if(array == null) {
+                        array = new JSONArray();
+                        current.put("extra", array);
+                    }
+
+                    JSONObject extra = new JSONObject();
+                    array.put(extra);
+                    current = extra;
+                }
             }
+            pos++;
         }
 
-        return object.toString(2);
+        return object;
     }
 
     private static <T> List<T> asList(T[] array) {
@@ -127,6 +156,31 @@ public class ChatFormatter {
         }
 
         return list;
+    }
+
+    public static class ColorString {
+
+        private ChatColor color;
+        private String string;
+
+        public ColorString(ChatColor color, String string) {
+            this.color = color;
+            this.string = string;
+        }
+
+        public ChatColor getColor() {
+            return color;
+        }
+
+        public String getString() {
+            return string;
+        }
+
+        @Override
+        public String toString() {
+            return color.name() + ": " + string;
+        }
+
     }
 
 }
