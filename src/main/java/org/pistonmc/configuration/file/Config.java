@@ -93,7 +93,7 @@ public class Config extends YamlConfiguration {
 			file.getParentFile().mkdirs();
 			save(file);
 		} catch(IOException ex) {
-			plugin.getLogger().severe("Could not save config to " + file + " " + ex.getMessage());
+			getLogger().severe("Could not save config to " + file + " " + ex.getMessage());
 		}
 	}
 
