@@ -202,17 +202,25 @@ public class PluginManager<T extends Plugin> {
         return plugin;
     }
 
-    public T load(T plugin, T parent, String name, String version) {
-        return load(plugin, parent, name, version, false);
+    public T load(T plugin, T parent) {
+        return load(plugin, parent, false);
     }
 
-    public T load(T plugin, T parent, String name, String version, boolean add) {
+    public T load(T plugin, T parent, boolean add) {
+        return load(plugin, parent, parent.getDescription().getName(), parent.getDescription().getVersion(), parent.getDescription().getAuthors(), add);
+    }
+
+    public T load(T plugin, T parent, String name, String version, List<String> authors) {
+        return load(plugin, parent, name, version, authors, false);
+    }
+
+    public T load(T plugin, T parent, String name, String version, List<String> authors, boolean add) {
         SimpleObject parentObject = new SimpleObject(parent);
         SimpleObject object = new SimpleObject(plugin);
         object.field("loader").set(parentObject.field("loader").value());
         object.field("file").set(parentObject.field("file").value());
 
-        PluginDescription description = new PluginDescription(name, version, parent.getDescription().getAuthors());
+        PluginDescription description = new PluginDescription(name, version, authors);
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));

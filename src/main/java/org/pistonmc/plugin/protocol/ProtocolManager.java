@@ -35,7 +35,7 @@ public class ProtocolManager extends PluginManager<Protocol> {
             throw new ProtocolNotFoundException(version);
         }
 
-        return result.create(connection);
+        return result.create(connection, this);
     }
 
     @Override

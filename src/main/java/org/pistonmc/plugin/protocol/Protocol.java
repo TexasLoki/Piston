@@ -1,5 +1,7 @@
 package org.pistonmc.plugin.protocol;
 
+import org.pistonmc.ChatColor;
+import org.pistonmc.event.connection.ServerListPingEvent;
 import org.pistonmc.exception.protocol.IllegalProtocolException;
 import org.pistonmc.exception.protocol.packet.PacketException;
 import org.pistonmc.plugin.JavaPlugin;
@@ -27,10 +29,15 @@ public abstract class Protocol extends JavaPlugin {
         }
     }
 
-    protected Protocol(Protocol parent, PlayerConnection connection) {
+    protected Protocol(Protocol parent, ProtocolManager manager) {
         this(parent.version);
         this.parent = parent;
         this.packets = parent.packets;
+        manager.load(this, parent, false);
+    }
+
+    protected Protocol(Protocol parent, PlayerConnection connection, ProtocolManager manager) {
+        this(parent, manager);
         this.connection = connection;
     }
 
@@ -58,6 +65,10 @@ public abstract class Protocol extends JavaPlugin {
 
     public abstract void handle(IncomingPacket packet) throws PacketException, IOException;
 
-    public abstract Protocol create(PlayerConnection connection);
+    public abstract Protocol create(PlayerConnection connection, ProtocolManager manager);
+
+    public ServerListPingEvent response() {
+        return new ServerListPingEvent(getDescription().getName(), version, 0, 20, ChatColor.AQUA + "A Minecraft Server");
+    }
 
 }
