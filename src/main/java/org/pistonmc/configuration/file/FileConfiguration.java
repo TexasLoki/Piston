@@ -24,15 +24,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     public void save(File file) throws IOException {
         TextFile text = new TextFile(file, false);
         String string = saveToString();
-        Logging.getLogger().info("YAML: \n" + string);
-        /*
-        String[] split = string.contains("\n") ? string.split("\n") : new String[]{string};
-        for(String str : split) {
-            if(!str.equals("")) {
-                text.line(str);
-            }
-        }
-        */
         text.addLine(string);
         text.save();
     }

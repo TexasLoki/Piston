@@ -46,7 +46,7 @@ public class Config extends YamlConfiguration {
         // FileNotFoundException fnfe = null;
 		try {
 			load(file);
-            Logging.getLogger().debug("Loaded from " + file);
+            getLogger().debug("Loaded from " + file);
 			return;
 		} catch(FileNotFoundException ex) {
             // fnfe = ex;
@@ -90,10 +90,10 @@ public class Config extends YamlConfiguration {
 		}
 
 		try {
-			file.getParentFile().mkdirs();
+			file.getAbsoluteFile().getParentFile().mkdirs();
 			save(file);
 		} catch(IOException ex) {
-			getLogger().severe("Could not save config to " + file + " " + ex.getMessage());
+			getLogger().log("Could not save config to " + file + ": ", ex);
 		}
 	}
 

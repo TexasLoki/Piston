@@ -41,4 +41,7 @@ public interface Configuration {
     public List getList(String path);
     public void setList(String path, List value);
 
+    public void fromMap(Map<?, ?> map);
+    public Map<String, Object> asMap();
+
 }

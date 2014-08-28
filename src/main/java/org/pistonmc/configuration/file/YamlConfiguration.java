@@ -1,7 +1,8 @@
 package org.pistonmc.configuration.file;
 
 import org.pistonmc.exception.configuration.InvalidConfigurationException;
-import org.pistonmc.logging.Logging;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.DumperOptions.FlowStyle;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -11,10 +12,12 @@ public class YamlConfiguration extends FileConfiguration {
 
     private static final long serialVersionUID = 4379037675003929039L;
 
+    private DumperOptions options = new DumperOptions();
     private Yaml yaml;
 
     public YamlConfiguration() {
-        this.yaml = new Yaml();
+        options.setDefaultFlowStyle(FlowStyle.BLOCK);
+        this.yaml = new Yaml(options);
     }
 
     @Override
@@ -23,7 +26,6 @@ public class YamlConfiguration extends FileConfiguration {
             throw new InvalidConfigurationException(this, "Configuration string cannot be null");
         }
 
-        Logging.getLogger().debug("Loading \n" + string);
         Map<?, ?> input;
         try {
             input = (Map<?, ?>) yaml.load(string);
@@ -43,7 +45,6 @@ public class YamlConfiguration extends FileConfiguration {
     @Override
     public String saveToString() {
         Map<String, Object> map = asMap();
-        Logging.getLogger().info("\n" + map);
         return yaml.dump(map);
     }
 

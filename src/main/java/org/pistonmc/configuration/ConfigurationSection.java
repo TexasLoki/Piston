@@ -1,9 +1,12 @@
 package org.pistonmc.configuration;
 
 import org.pistonmc.exception.configuration.IllegalConfigurationPathException;
+import org.pistonmc.logging.Logging;
+import org.pistonmc.util.OtherUtils;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 public class ConfigurationSection extends LinkedHashMap<String, Object> implements Configuration {
 
@@ -35,7 +38,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
     public Object get(String path) {
         if(path.contains(".")) {
-            String[] split = path.split(".");
+            String[] split = path.split(Pattern.quote("."));
 
             Object object = this;
             for(int i = 0; i < split.length; i++) {
@@ -49,7 +52,8 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
             return object;
         } else {
-            return super.get(path);
+            Object object = super.get(path);
+            return object;
         }
     }
 
@@ -203,7 +207,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
-    protected void fromMap(Map<?, ?> map) {
+    public void fromMap(Map<?, ?> map) {
         for(Entry<?, ?> entry : map.entrySet()) {
             String key = entry.getKey().toString();
             Object value = entry.getValue();
@@ -222,15 +226,15 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
-    protected Map<String, Object> asMap() {
+    public Map<String, Object> asMap() {
         Map<String, Object> map = new LinkedHashMap<>();
         for(Entry<String, Object> entry : entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
-            if(value instanceof ConfigurationSection) {
-                ConfigurationSection section = (ConfigurationSection) value;
-                map.put(key, section.asMap());
+            if(value instanceof Configuration) {
+                Configuration configuration = (Configuration) value;
+                map.put(key, configuration.asMap());
             } else {
                 map.put(key, value);
             }
