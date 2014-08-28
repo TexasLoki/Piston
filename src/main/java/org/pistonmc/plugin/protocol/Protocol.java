@@ -1,17 +1,17 @@
 package org.pistonmc.plugin.protocol;
 
-import org.pistonmc.ChatColor;
+import org.pistonmc.Piston;
 import org.pistonmc.event.connection.ServerListPingEvent;
 import org.pistonmc.exception.protocol.IllegalProtocolException;
 import org.pistonmc.exception.protocol.packet.PacketException;
 import org.pistonmc.plugin.JavaPlugin;
 import org.pistonmc.protocol.PlayerConnection;
 import org.pistonmc.protocol.packet.IncomingPacket;
-import org.pistonmc.protocol.packet.Packet;
 import org.pistonmc.protocol.packet.ProtocolState;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Protocol extends JavaPlugin {
@@ -68,7 +68,22 @@ public abstract class Protocol extends JavaPlugin {
     public abstract Protocol create(PlayerConnection connection, ProtocolManager manager);
 
     public ServerListPingEvent response() {
-        return new ServerListPingEvent(getDescription().getName(), version, 0, 20, ChatColor.AQUA + "A Minecraft Server");
+        ServerListPingEvent event = new ServerListPingEvent(getDescription().getName(), version, 0, 20, "A Minecraft Server");
+
+        List<String> motd = Piston.getConfig().getStringList("ping.motd");
+        if(motd != null) {
+            event.setMotd(true, '&', motd);
+        }
+
+        String protocol = Piston.getConfig().getString("ping.protocol");
+        if(protocol != null && !protocol.equalsIgnoreCase("default")) {
+            event.setProtocolName(protocol);
+        }
+
+        Boolean accessible = Piston.getConfig().getBoolean("ping.accessible");
+        event.setAccessible(accessible == null || accessible);
+
+        return event;
     }
 
 }

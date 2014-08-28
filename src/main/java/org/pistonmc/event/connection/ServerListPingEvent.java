@@ -1,10 +1,13 @@
 package org.pistonmc.event.connection;
 
 import org.json.JSONObject;
+import org.pistonmc.ChatColor;
 import org.pistonmc.event.Cancellable;
 import org.pistonmc.event.Event;
 import org.pistonmc.exception.IllegalMotdException;
 import org.pistonmc.util.ChatFormatter;
+
+import java.util.List;
 
 public class ServerListPingEvent extends Event implements Cancellable {
 
@@ -69,21 +72,49 @@ public class ServerListPingEvent extends Event implements Cancellable {
     }
 
     public void setMotd(String motd) {
-        this.motd = motd;
+        setMotd(false, '&', motd);
+    }
+
+    public void setMotd(boolean replace, char ch, String motd) {
+        this.motd = replace ? ChatColor.translate(ch, motd) : motd;
     }
 
     public void setMotd(String... lines) {
+        setMotd(false, '&', lines);
+    }
+
+    public void setMotd(boolean replace, char ch, String... lines) {
         if(lines.length > 2) {
             throw new IllegalMotdException("Multiline MOTDs may only contain up to 2 lines");
         }
 
         if(lines.length <= 0) {
-            setMotd("");
+            setMotd(replace, ch, "");
         } else if(lines.length == 1) {
-            setMotd(lines[0]);
+            setMotd(replace, ch, lines[0]);
         } else {
-            setMotd(lines[0] + "\n" + lines[1]);
+            setMotd(replace, ch, lines[0] + "\n" + ChatColor.RESET + lines[1]);
         }
+    }
+
+    public void setMotd(List<String> lines) {
+        String[] strings = new String[lines.size()];
+        for(int i = 0; i < lines.size(); i++) {
+            String string = lines.get(i);
+            strings[i] = string;
+        }
+
+        setMotd(false, '&', strings);
+    }
+
+    public void setMotd(boolean replace, char ch, List<String> lines) {
+        String[] strings = new String[lines.size()];
+        for(int i = 0; i < lines.size(); i++) {
+            String string = lines.get(i);
+            strings[i] = string;
+        }
+
+        setMotd(replace, ch, strings);
     }
 
     public boolean isCancelled() {

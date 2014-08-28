@@ -95,6 +95,18 @@ public enum ChatColor {
         return STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
     }
 
+    public static String translate(char ch, String string) {
+        char[] b = string.toCharArray();
+        for (int i = 0; i < b.length - 1; i++) {
+            if (b[i] == ch && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i+1]) > -1) {
+                b[i] = COLOR_CHAR;
+                b[i+1] = Character.toLowerCase(b[i+1]);
+            }
+        }
+
+        return new String(b);
+    }
+
     public static String getConsoleString(String input) {
         for(ChatColor color : values()) {
             input = input.replace(color.toString(), color.toConsole());
