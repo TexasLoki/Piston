@@ -194,7 +194,7 @@ public class PluginManager<T extends Plugin> {
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
-        object.field("config").set(Config.loadFromFile((JavaPlugin) plugin, "config.yml"));
+        object.field("config").set(Config.loadFromPlugin((JavaPlugin) plugin, "config.yml"));
 
         plugin.onLoad();
 
@@ -224,7 +224,7 @@ public class PluginManager<T extends Plugin> {
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
-        object.field("config").set(Config.loadFromFile((JavaPlugin) plugin, "config.yml"));
+        object.field("config").set(Config.loadFromPlugin((JavaPlugin) plugin, "config.yml"));
 
         load(plugin);
 
