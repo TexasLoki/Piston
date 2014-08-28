@@ -43,6 +43,7 @@ public class Config extends YamlConfiguration {
 		plugin.getLogger().debug("Loading defaults from " + def);
 
 		// Look for defaults in the jar
+        def = def != null ? def : file.getName();
 		InputStream defConfigStream = plugin.getResource(def);
 		if(defConfigStream != null) {
             load(defConfigStream);
