@@ -1,4 +1,4 @@
-package org.pistonmc;
+package org.pistonmc.world;
 
 public class Location {
 

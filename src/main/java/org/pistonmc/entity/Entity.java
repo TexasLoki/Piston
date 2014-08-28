@@ -1,7 +1,7 @@
 package org.pistonmc.entity;
 
-import org.pistonmc.Location;
-import org.pistonmc.World;
+import org.pistonmc.world.Location;
+import org.pistonmc.world.World;
 
 import java.util.UUID;
 

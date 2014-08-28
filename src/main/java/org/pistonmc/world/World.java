@@ -1,4 +1,4 @@
-package org.pistonmc;
+package org.pistonmc.world;
 
 import org.pistonmc.entity.Entity;
 import org.pistonmc.entity.LivingEntity;
