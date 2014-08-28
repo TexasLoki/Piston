@@ -13,7 +13,7 @@ import java.util.logging.Level;
 public class Config extends YamlConfiguration {
 
     private static final long serialVersionUID = 8708076338509087808L;
-    
+
     private JavaPlugin plugin;
 	private File file;
 	private String def;
@@ -95,7 +95,7 @@ public class Config extends YamlConfiguration {
 	}
 
 	public static Config load(JavaPlugin plugin, String name) {
-		return load(plugin, new File(plugin.getDataFolder(), name));
+		return load(plugin, new File(plugin.getDataFolder(), name), name);
 	}
 
 }
