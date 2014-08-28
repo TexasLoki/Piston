@@ -86,8 +86,7 @@ public class JavaPlugin implements Plugin {
             JarFile jar = new JarFile(file, true);
             ZipEntry entry = jar.getEntry(name);
             return jar.getInputStream(entry);
-        } catch(IOException ex) {
-            ex.printStackTrace();
+        } catch(Exception ex) {
             return null;
         }
     }
