@@ -1,7 +1,6 @@
 package org.pistonmc.util.file;
 
 import org.pistonmc.logging.Logging;
-import org.pistonmc.util.OtherUtils;
 
 import java.io.File;
 import java.io.FileWriter;

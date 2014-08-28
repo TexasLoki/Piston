@@ -12,7 +12,9 @@ import java.util.logging.Level;
 
 public class Config extends YamlConfiguration {
 
-	private JavaPlugin plugin;
+    private static final long serialVersionUID = 8708076338509087808L;
+    
+    private JavaPlugin plugin;
 	private File file;
 	private String def;
 
@@ -35,17 +37,16 @@ public class Config extends YamlConfiguration {
 		} catch(FileNotFoundException ex) {
             fnfe = ex;
 		} catch(IOException | InvalidConfigurationException ex) {
-            Logging.getLogger().log("Cannot load " + file, ex);
+            plugin.getLogger().log("Cannot load " + file, ex);
 		}
 
-		plugin.getLogger().info("Loading defaults from " + def);
+		plugin.getLogger().debug("Loading defaults from " + def);
 
 		// Look for defaults in the jar
 		InputStream defConfigStream = plugin.getResource(def);
 		if(defConfigStream != null) {
             load(defConfigStream);
-            Logging.getLogger().debug("Loaded from " + defConfigStream);
-			save();
+            plugin.getLogger().debug("Loaded from " + defConfigStream);
             return;
 		}
 
@@ -61,7 +62,7 @@ public class Config extends YamlConfiguration {
 
                 reload();
             } catch(IOException e) {
-                Logging.getLogger().log(Level.SEVERE, "Cannot load " + file, fnfe);
+                plugin.getLogger().log(Level.SEVERE, "Cannot load " + file, fnfe);
             }
         }
 	}
