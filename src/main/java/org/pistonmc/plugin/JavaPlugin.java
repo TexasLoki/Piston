@@ -1,9 +1,14 @@
 package org.pistonmc.plugin;
 
+import org.pistonmc.configuration.file.Config;
 import org.pistonmc.logging.Logger;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLClassLoader;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public class JavaPlugin implements Plugin {
 
@@ -15,6 +20,7 @@ public class JavaPlugin implements Plugin {
     private Logger logger;
 
     private File dataFolder;
+    private Config config;
 
     public PluginDescription getDescription() {
         return description;
@@ -68,6 +74,16 @@ public class JavaPlugin implements Plugin {
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public InputStream getResource(String name) {
+        try {
+            JarFile jar = new JarFile(file, true);
+            ZipEntry entry = jar.getEntry(name);
+            return jar.getInputStream(entry);
+        } catch(IOException ex) {
+            return null;
         }
     }
 

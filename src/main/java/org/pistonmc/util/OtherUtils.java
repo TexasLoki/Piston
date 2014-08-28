@@ -85,4 +85,23 @@ public class OtherUtils {
         return (T[]) create(array.getClass().getComponentType(), size);
     }
 
+    public static <T> String join(T[] array, String join) {
+        return join(array, join, array.length);
+    }
+
+    public static <T> String join(T[] array, String join, int limit) {
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < array.length && i < limit; i++) {
+            builder.append(array[i].toString());
+
+            int pos = i + 1;
+            boolean last = pos < array.length && pos < limit;
+            if(!last) {
+                builder.append(join);
+            }
+        }
+
+        return builder.toString();
+    }
+
 }

@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.pistonmc.Piston;
+import org.pistonmc.configuration.file.Config;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.logging.Logging;
 import org.pistonmc.util.reflection.SimpleObject;
@@ -193,8 +194,7 @@ public class PluginManager<T extends Plugin> {
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
-        // object.field("config").set(new JSONObject());
-        // plugin.readConfig();
+        object.field("config").set(Config.load((JavaPlugin) plugin, "config.yml"));
 
         plugin.onLoad();
 
@@ -224,8 +224,7 @@ public class PluginManager<T extends Plugin> {
         object.field("description").set(description);
         object.field("logger").set(Logging.getLogger(description.getName(), logger));
         object.field("dataFolder").set(new File(getPluginsFolder(), description.getName()));
-        // object.field("config").set(new JSONObject());
-        // plugin.readConfig();
+        object.field("config").set(Config.load((JavaPlugin) plugin, "config.yml"));
 
         load(plugin);
 
