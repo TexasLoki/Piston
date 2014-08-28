@@ -1,5 +1,6 @@
 package org.pistonmc;
 
+import org.pistonmc.configuration.file.Config;
 import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.JavaPluginManager;
@@ -22,6 +23,10 @@ public class Piston {
 
     public static Logger getLogger() {
         return server.getLogger();
+    }
+
+    public static Config getConfig() {
+        return server.getConfig();
     }
 
     public static ProtocolManager getProtocolManager() {

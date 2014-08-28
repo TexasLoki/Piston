@@ -1,5 +1,6 @@
 package org.pistonmc;
 
+import org.pistonmc.configuration.file.Config;
 import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.JavaPluginManager;
@@ -8,6 +9,8 @@ import org.pistonmc.plugin.protocol.ProtocolManager;
 public interface Server {
 
     public Logger getLogger();
+
+    public Config getConfig();
 
     public ProtocolManager getProtocolManager();
 
