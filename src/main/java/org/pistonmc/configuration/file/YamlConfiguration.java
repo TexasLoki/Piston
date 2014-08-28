@@ -22,20 +22,20 @@ public class YamlConfiguration extends FileConfiguration {
 
     @Override
     public void load(String string) {
-        if(string == null) {
+        if (string == null) {
             throw new InvalidConfigurationException(this, "Configuration string cannot be null");
         }
 
         Map<?, ?> input;
         try {
             input = (Map<?, ?>) yaml.load(string);
-        } catch(YAMLException ex) {
+        } catch (YAMLException ex) {
             throw new InvalidConfigurationException(this, ex);
-        } catch(ClassCastException ex) {
+        } catch (ClassCastException ex) {
             throw new InvalidConfigurationException(this, "Top level is not a Map");
         }
 
-        if(input == null) {
+        if (input == null) {
             return;
         }
 

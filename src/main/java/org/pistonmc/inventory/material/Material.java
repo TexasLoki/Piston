@@ -368,7 +368,7 @@ public enum Material {
         this.data = data;
         try {
             this.constructor = data.getDeclaredConstructor(int.class, byte.class);
-        } catch(NoSuchMethodException | SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException ex) {
             throw new AssertionError(ex);
         }
     }
@@ -386,8 +386,8 @@ public enum Material {
     }
 
     public static Material getMaterial(int id) {
-        for(Material material : values()) {
-            if(material.getId() == id) {
+        for (Material material : values()) {
+            if (material.getId() == id) {
                 return material;
             }
         }
@@ -414,7 +414,7 @@ public enum Material {
     public MaterialData getData(byte data) {
         try {
             return constructor.newInstance(id, data);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Piston.getServer().getLogger().log("Failed to create " + this.data.getSimpleName() + ": ", ex);
             return null;
         }

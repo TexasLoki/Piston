@@ -31,7 +31,7 @@ public class ProtocolManager extends PluginManager<Protocol> {
 
     public Protocol find(int version, PlayerConnection connection) throws ProtocolException {
         Protocol result = protocols.get(version);
-        if(result == null) {
+        if (result == null) {
             throw new ProtocolNotFoundException(version);
         }
 

@@ -1,14 +1,11 @@
 package org.pistonmc.configuration.file;
 
 import org.apache.commons.io.IOUtils;
-import org.pistonmc.configuration.ConfigurationSection;
 import org.pistonmc.configuration.MemoryConfiguration;
-import org.pistonmc.logging.Logging;
 import org.pistonmc.util.file.TextFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public abstract class FileConfiguration extends MemoryConfiguration {

@@ -24,7 +24,7 @@ public abstract class Protocol extends JavaPlugin {
     protected Protocol(int version) {
         this.version = version;
         packets = new HashMap<>();
-        for(ProtocolState state : ProtocolState.values()) {
+        for (ProtocolState state : ProtocolState.values()) {
             packets.put(state, new HashMap<Integer, Class<? extends IncomingPacket>>());
         }
     }
@@ -42,7 +42,7 @@ public abstract class Protocol extends JavaPlugin {
     }
 
     protected void add(IncomingPacket packet) {
-        if(parent != null) {
+        if (parent != null) {
             parent.add(packet);
         } else {
             packets.get(packet.getState()).put(packet.getId(), packet.getClass());
@@ -58,7 +58,7 @@ public abstract class Protocol extends JavaPlugin {
 
         try {
             return cls.getConstructor().newInstance();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw new IllegalProtocolException(version, "Could not find " + state.name() + " Packet with id #" + id);
         }
     }
@@ -71,12 +71,12 @@ public abstract class Protocol extends JavaPlugin {
         ServerListPingEvent event = new ServerListPingEvent(getDescription().getName(), version, 0, 20, "A Minecraft Server");
 
         List<String> motd = Piston.getConfig().getStringList("ping.motd");
-        if(motd != null) {
+        if (motd != null) {
             event.setMotd(true, '&', motd);
         }
 
         String protocol = Piston.getConfig().getString("ping.protocol");
-        if(protocol != null && !protocol.equalsIgnoreCase("default")) {
+        if (protocol != null && !protocol.equalsIgnoreCase("default")) {
             event.setProtocolName(protocol);
         }
 

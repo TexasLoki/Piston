@@ -12,7 +12,7 @@ public class PrioritisedMethods<E extends Event> {
 
     public PrioritisedMethods() {
         methods = new HashMap<>();
-        for(EventPriority priority : EventPriority.values()) {
+        for (EventPriority priority : EventPriority.values()) {
             methods.put(priority, new ArrayList<EventMethod<E>>());
         }
     }
@@ -23,7 +23,7 @@ public class PrioritisedMethods<E extends Event> {
 
     public List<EventMethod<E>> getOrderedMethods() {
         List<EventMethod<E>> methods = new ArrayList<>();
-        for(EventPriority priority : EventPriority.values()) {
+        for (EventPriority priority : EventPriority.values()) {
             methods.addAll(getMethods(priority));
         }
 
@@ -35,10 +35,10 @@ public class PrioritisedMethods<E extends Event> {
     }
 
     public void remove(Listener listener) {
-        for(List<EventMethod<E>> methods : this.methods.values()) {
+        for (List<EventMethod<E>> methods : this.methods.values()) {
             List<EventMethod<E>> remove = new ArrayList<>();
-            for(EventMethod<E> method : methods) {
-                if(method.getListener().equals(listener)) {
+            for (EventMethod<E> method : methods) {
+                if (method.getListener().equals(listener)) {
                     remove.add(method);
                 }
             }
@@ -48,10 +48,10 @@ public class PrioritisedMethods<E extends Event> {
     }
 
     public void remove(Class<? extends E> event, boolean assignable) {
-        for(List<EventMethod<E>> methods : this.methods.values()) {
+        for (List<EventMethod<E>> methods : this.methods.values()) {
             List<EventMethod<E>> remove = new ArrayList<>();
-            for(EventMethod<E> method : methods) {
-                if((assignable && event.isAssignableFrom(method.getEvent())) || (!assignable && event.equals(method.getEvent()))) {
+            for (EventMethod<E> method : methods) {
+                if ((assignable && event.isAssignableFrom(method.getEvent())) || (!assignable && event.equals(method.getEvent()))) {
                     remove.add(method);
                 }
             }

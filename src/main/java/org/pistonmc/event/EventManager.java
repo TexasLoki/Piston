@@ -29,13 +29,13 @@ public class EventManager<E extends Event> {
         Class<?> clazz = listener.getClass();
 
         Method[] methods = clazz.getMethods();
-        for(Method method : methods) {
-            if(!method.isAnnotationPresent(EventHandler.class)) {
+        for (Method method : methods) {
+            if (!method.isAnnotationPresent(EventHandler.class)) {
                 continue;
             }
 
             EventHandler handler = method.getAnnotation(EventHandler.class);
-            if(method.getParameterTypes().length != 1) {
+            if (method.getParameterTypes().length != 1) {
                 continue;
             }
 
@@ -43,16 +43,16 @@ public class EventManager<E extends Event> {
             Class<? extends E> event;
             try {
                 event = (Class<? extends E>) parameter;
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 continue;
             }
 
-            if(events == null) {
+            if (events == null) {
                 continue;
             }
 
             PrioritisedMethods<E> prioritised = events.containsKey(event) ? events.get(event) : null;
-            if(prioritised == null) {
+            if (prioritised == null) {
                 prioritised = new PrioritisedMethods<>();
                 events.put(event, prioritised);
             }
@@ -62,7 +62,7 @@ public class EventManager<E extends Event> {
     }
 
     public void unregister(Listener listener) {
-        for(PrioritisedMethods<E> methods : events.values()) {
+        for (PrioritisedMethods<E> methods : events.values()) {
             methods.remove(listener);
         }
     }
@@ -72,7 +72,7 @@ public class EventManager<E extends Event> {
     }
 
     public void unregister(Class<? extends E> event, boolean matches) {
-        for(PrioritisedMethods<E> methods : events.values()) {
+        for (PrioritisedMethods<E> methods : events.values()) {
             methods.remove(event, !matches);
         }
     }
@@ -80,27 +80,27 @@ public class EventManager<E extends Event> {
     public <T extends E> T call(T event) {
         try {
             List<PrioritisedMethods<E>> methods = new ArrayList<>();
-            for(Entry<Class<? extends E>, PrioritisedMethods<E>> entry : events.entrySet()) {
-                if(entry.getKey().isAssignableFrom(event.getClass())) {
+            for (Entry<Class<? extends E>, PrioritisedMethods<E>> entry : events.entrySet()) {
+                if (entry.getKey().isAssignableFrom(event.getClass())) {
                     methods.add(entry.getValue());
                 }
             }
 
             Map<EventPriority, List<EventMethod<E>>> priorityMap = new HashMap<>();
-            for(EventPriority priority : EventPriority.values()) {
+            for (EventPriority priority : EventPriority.values()) {
                 List<EventMethod<E>> list = new ArrayList<>();
-                for(PrioritisedMethods<E> method : methods) {
+                for (PrioritisedMethods<E> method : methods) {
                     list.addAll(method.getMethods(priority));
                 }
                 priorityMap.put(priority, list);
             }
 
-            for(EventPriority priority : EventPriority.values()) {
-                for(EventMethod<E> method : priorityMap.get(priority)) {
+            for (EventPriority priority : EventPriority.values()) {
+                for (EventMethod<E> method : priorityMap.get(priority)) {
                     method.handle(event, logger);
                 }
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 

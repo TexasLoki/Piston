@@ -4,7 +4,6 @@ import org.pistonmc.configuration.file.Config;
 import org.pistonmc.logging.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLClassLoader;
 import java.util.jar.JarFile;
@@ -56,17 +55,17 @@ public class JavaPlugin implements Plugin {
 
     public void setEnabled(boolean enabled) {
         boolean update = this.enabled != enabled;
-        if(!update) {
+        if (!update) {
             getLogger().info(getDescription().getName() + " is already " + (enabled ? "enabled" : "disabled"));
             return;
         }
 
-        if(enabled) {
+        if (enabled) {
             getLogger().info("Enabling " + getDescription().getName() + " v" + getDescription().getVersion());
             try {
                 onEnable();
                 this.enabled = true;
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.warning("An error occurred while enabling " + getDescription().getName() + ", is it up to date?");
             }
@@ -75,7 +74,7 @@ public class JavaPlugin implements Plugin {
             try {
                 this.enabled = false;
                 onDisable();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -86,7 +85,7 @@ public class JavaPlugin implements Plugin {
             JarFile jar = new JarFile(file, true);
             ZipEntry entry = jar.getEntry(name);
             return jar.getInputStream(entry);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }

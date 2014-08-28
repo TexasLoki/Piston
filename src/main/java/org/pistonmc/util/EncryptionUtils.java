@@ -2,12 +2,7 @@ package org.pistonmc.util;
 
 import org.pistonmc.logging.Logging;
 
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 
 public class EncryptionUtils {
@@ -24,7 +19,7 @@ public class EncryptionUtils {
             generator.initialize(1024);
 
             keyPair = generator.generateKeyPair();
-        } catch(NoSuchAlgorithmException ex) {
+        } catch (NoSuchAlgorithmException ex) {
             Logging.getLogger().severe("Unable to generate RSA key pair: " + ex.getMessage());
         }
 
@@ -44,7 +39,7 @@ public class EncryptionUtils {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
             key = keyFactory.generatePublic(encodedKeySpec);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logging.getLogger().severe("Unable to generate X509 encoded key: " + ex.getMessage());
         }
 

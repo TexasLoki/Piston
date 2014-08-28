@@ -1,7 +1,6 @@
 package org.pistonmc.exception.configuration;
 
 import org.pistonmc.configuration.Configuration;
-import org.pistonmc.util.OtherUtils;
 
 public class InvalidConfigurationException extends ConfigurationException {
 

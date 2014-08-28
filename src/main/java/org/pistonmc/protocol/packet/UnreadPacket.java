@@ -13,7 +13,7 @@ public class UnreadPacket {
     public UnreadPacket(int length, PacketInputStream stream) throws IOException {
         this.length = length;
         this.stream = stream;
-        if(stream != null) {
+        if (stream != null) {
             this.id = stream.readVarInt();
         }
     }

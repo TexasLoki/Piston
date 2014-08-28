@@ -20,50 +20,50 @@ public class Config extends YamlConfiguration {
 
     private File jar;
     private JavaPlugin plugin;
-	private File file;
-	private String def;
+    private File file;
+    private String def;
 
     protected Config(JavaPlugin plugin, File file, String def) {
         this(new SimpleObject(plugin).field("file").value(File.class), file, def);
         this.plugin = plugin;
     }
 
-	protected Config(File jar, File file, String def) {
-		this.jar = jar;
-		this.file = file;
-		this.def = def;
-	}
+    protected Config(File jar, File file, String def) {
+        this.jar = jar;
+        this.file = file;
+        this.def = def;
+    }
 
     public Logger getLogger() {
         return plugin != null ? plugin.getLogger() : Logging.getLogger();
     }
 
-	public FileConfiguration getConfig() {
-		return this;
-	}
+    public FileConfiguration getConfig() {
+        return this;
+    }
 
-	public void reload() {
+    public void reload() {
         // FileNotFoundException fnfe = null;
-		try {
-			load(file);
+        try {
+            load(file);
             getLogger().debug("Loaded from " + file);
-			return;
-		} catch(FileNotFoundException ex) {
+            return;
+        } catch (FileNotFoundException ex) {
             // fnfe = ex;
             /* ignored */
-		} catch(IOException | InvalidConfigurationException ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             getLogger().log("Cannot load " + file, ex);
-		}
+        }
 
-		// Look for defaults in the jar
+        // Look for defaults in the jar
         def = def != null ? def : file.getName();
-		InputStream defConfigStream = getResource(jar, def);
-		if(defConfigStream != null) {
+        InputStream defConfigStream = getResource(jar, def);
+        if (defConfigStream != null) {
             getLogger().debug("Loading defaults from " + def);
             load(defConfigStream);
             getLogger().debug("Loaded from " + defConfigStream);
             return;
-		}
+        }
 
         /*
         if(fnfe != null) {
@@ -82,38 +82,38 @@ public class Config extends YamlConfiguration {
             }
         }
         */
-	}
+    }
 
-	public void save() {
-		if(file == null) {
-			return;
-		}
+    public void save() {
+        if (file == null) {
+            return;
+        }
 
-		try {
-			file.getAbsoluteFile().getParentFile().mkdirs();
-			save(file);
-		} catch(IOException ex) {
-			getLogger().log("Could not save config to " + file + ": ", ex);
-		}
-	}
+        try {
+            file.getAbsoluteFile().getParentFile().mkdirs();
+            save(file);
+        } catch (IOException ex) {
+            getLogger().log("Could not save config to " + file + ": ", ex);
+        }
+    }
 
-	public static Config loadFromPlugin(JavaPlugin plugin, File file, String def) {
+    public static Config loadFromPlugin(JavaPlugin plugin, File file, String def) {
         Config config = new Config(plugin, file, def);
         config.reload();
         return config;
-	}
+    }
 
-	public static Config loadFromPlugin(JavaPlugin plugin, File file) {
-		return loadFromPlugin(plugin, file, file.getName());
-	}
+    public static Config loadFromPlugin(JavaPlugin plugin, File file) {
+        return loadFromPlugin(plugin, file, file.getName());
+    }
 
-	public static Config loadFromPlugin(JavaPlugin plugin, String name, String def) {
-		return loadFromPlugin(plugin, new File(plugin.getDataFolder(), name), def);
-	}
+    public static Config loadFromPlugin(JavaPlugin plugin, String name, String def) {
+        return loadFromPlugin(plugin, new File(plugin.getDataFolder(), name), def);
+    }
 
-	public static Config loadFromPlugin(JavaPlugin plugin, String name) {
-		return loadFromPlugin(plugin, new File(plugin.getDataFolder(), name));
-	}
+    public static Config loadFromPlugin(JavaPlugin plugin, String name) {
+        return loadFromPlugin(plugin, new File(plugin.getDataFolder(), name));
+    }
 
     public static Config loadFromFile(File jar, File file, String def) {
         Config config = new Config(jar, file, def);
@@ -156,7 +156,7 @@ public class Config extends YamlConfiguration {
             JarFile jar = new JarFile(file, true);
             ZipEntry entry = jar.getEntry(name);
             return jar.getInputStream(entry);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }

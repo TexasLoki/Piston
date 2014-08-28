@@ -25,7 +25,7 @@ public class ClassUtils {
     public static String build(Class<?> clazz, Object object, boolean all, String... excludes) {
         try {
             return buildThrows(clazz, object, all, excludes);
-        } catch(IllegalAccessException illegal) {
+        } catch (IllegalAccessException illegal) {
             illegal.printStackTrace();
             return clazz.getSimpleName() + "{class=" + clazz.getName() + "}";
         }
@@ -44,23 +44,23 @@ public class ClassUtils {
         do {
             classes.add(clazz);
             clazz = clazz.getSuperclass();
-        } while(all && clazz != Object.class);
+        } while (all && clazz != Object.class);
 
         boolean previous = false;
-        for(Class<?> cl : classes) {
+        for (Class<?> cl : classes) {
             Field[] fields = cl.getDeclaredFields();
-            for(Field field : fields) {
-                if(!exclude.contains(field.getName())) {
+            for (Field field : fields) {
+                if (!exclude.contains(field.getName())) {
                     field.setAccessible(true);
-                    if(previous) {
+                    if (previous) {
                         string.append(",");
                     }
 
                     Object value = field.get(object);
-                    if(value != null && value.getClass().isArray()) {
+                    if (value != null && value.getClass().isArray()) {
                         List<Object> objects = new ArrayList<>();
                         int length = Array.getLength(value);
-                        for(int i = 0; i < length; i++) {
+                        for (int i = 0; i < length; i++) {
                             objects.add(Array.get(value, i));
                         }
                         value = objects;
@@ -72,7 +72,7 @@ public class ClassUtils {
             }
         }
 
-        if(previous) {
+        if (previous) {
             string.append(",");
         }
 
@@ -92,13 +92,13 @@ public class ClassUtils {
         do {
             classes.add(cls);
             cls = cls.getSuperclass();
-        } while(all && cls != Object.class);
+        } while (all && cls != Object.class);
 
         List<Field> list = new ArrayList<>();
-        for(Class<?> cl : classes) {
+        for (Class<?> cl : classes) {
             Field[] fields = cl.getDeclaredFields();
-            for(Field field : fields) {
-                if(!exclude.contains(field.getName())) {
+            for (Field field : fields) {
+                if (!exclude.contains(field.getName())) {
                     list.add(field);
                 }
             }

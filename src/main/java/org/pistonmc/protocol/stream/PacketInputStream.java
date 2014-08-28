@@ -32,7 +32,7 @@ public class PacketInputStream extends DataInputStream {
         short size = readShort();
 
         String[] array = new String[size];
-        for(int i = 0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             array[i] = readString();
         }
 
@@ -42,17 +42,17 @@ public class PacketInputStream extends DataInputStream {
     public int readVarInt() throws IOException {
         int i = 0;
         int j = 0;
-        while(true) {
+        while (true) {
             int k = read();
-            if(k == -1)
+            if (k == -1)
                 throw new IOException("End of stream");
 
             i |= (k & 0x7F) << j++ * 7;
 
-            if(j > 5)
+            if (j > 5)
                 throw new IOException("VarInt too big");
 
-            if((k & 0x80) != 128)
+            if ((k & 0x80) != 128)
                 break;
         }
 
@@ -61,13 +61,13 @@ public class PacketInputStream extends DataInputStream {
 
     public long readVarInt64() throws IOException {
         long varInt = 0;
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             byte b = readByte();
             varInt |= ((long) (b & (i != 9 ? 0x7F : 0x01))) << (i * 7);
 
-            if(i == 9 && (((b & 0x80) == 0x80) || ((b & 0x7E) != 0)))
+            if (i == 9 && (((b & 0x80) == 0x80) || ((b & 0x7E) != 0)))
                 throw new IOException("VarInt too big");
-            if((b & 0x80) != 0x80)
+            if ((b & 0x80) != 0x80)
                 break;
         }
 
@@ -79,7 +79,7 @@ public class PacketInputStream extends DataInputStream {
     }
 
     public byte[] readBytes(int length) throws IOException {
-        if(length < 0)
+        if (length < 0)
             throw new IOException("Invalid array length");
         byte[] data = new byte[length];
         readFully(data);
@@ -102,12 +102,12 @@ public class PacketInputStream extends DataInputStream {
         Metadata metadata = new Metadata();
 
         byte item;
-        while((item = readByte()) != 127) {
+        while ((item = readByte()) != 127) {
             int index = item & 0x1F;
             byte type = (byte) (item >> 5);
 
             DataObject<?> object = null;
-            switch(type) {
+            switch (type) {
                 case 0:
                     object = new DataObject<>(index, type, readByte());
                     break;
@@ -140,7 +140,7 @@ public class PacketInputStream extends DataInputStream {
     public ItemStack readItemStack() throws IOException {
         ItemStack item = null;
         short id = readShort();
-        if(id >= 0) {
+        if (id >= 0) {
             byte stackSize = readByte();
             short damage = readShort();
             item = new ItemStack(id, stackSize, damage);

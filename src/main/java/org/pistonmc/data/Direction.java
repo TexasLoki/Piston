@@ -18,8 +18,8 @@ public enum Direction {
     }
 
     public static Direction valueOf(int id) {
-        for(Direction direction : values()) {
-            if(direction.getId() == id) {
+        for (Direction direction : values()) {
+            if (direction.getId() == id) {
                 return direction;
             }
         }

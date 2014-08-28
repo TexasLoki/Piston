@@ -18,8 +18,8 @@ public enum ProtocolState {
     }
 
     public static ProtocolState valueOf(int id) {
-        for(ProtocolState state : values()) {
-            if(state.getId() == id) {
+        for (ProtocolState state : values()) {
+            if (state.getId() == id) {
                 return state;
             }
         }

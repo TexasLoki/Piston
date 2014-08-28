@@ -24,14 +24,14 @@ public class PacketOutputStream extends DataOutputStream {
 
     public void writeStringArray(String[] array) throws IOException {
         writeShort(array.length);
-        for(String string : array) {
+        for (String string : array) {
             writeString(string);
         }
     }
 
     public void writeVarInt(int paramInt) throws IOException {
-        while(true) {
-            if((paramInt & 0xFFFFFF80) == 0) {
+        while (true) {
+            if ((paramInt & 0xFFFFFF80) == 0) {
                 writeByte((byte) paramInt);
                 return;
             }
@@ -43,10 +43,10 @@ public class PacketOutputStream extends DataOutputStream {
 
     public void writeVarInt64(long varInt) throws IOException {
         int length = 10;
-        for(int i = 9; i >= 0; i--)
-            if(((varInt >> (i * 7)) & (i != 9 ? 0x7F : 0x01)) == 0)
+        for (int i = 9; i >= 0; i--)
+            if (((varInt >> (i * 7)) & (i != 9 ? 0x7F : 0x01)) == 0)
                 length--;
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             writeByte((int) ((i == length - 1 ? 0x00 : 0x80) | ((varInt >> (i * 7)) & (i != 9 ? 0x7F : 0x01))));
     }
 
@@ -83,7 +83,7 @@ public class PacketOutputStream extends DataOutputStream {
     }
 
     public void writeItemStack(ItemStack item) throws IOException {
-        if(item != null) {
+        if (item != null) {
             writeShort(item.getTypeId());
             writeByte(item.getAmount());
             writeShort((short) item.getData().getData());

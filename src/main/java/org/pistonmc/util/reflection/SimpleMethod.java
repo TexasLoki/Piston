@@ -25,9 +25,9 @@ public class SimpleMethod {
     public <T> T value(Class<T> result, Object... params) {
         try {
             return (T) method.invoke(parent.getObject(), params);
-        } catch(IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch(InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
 
@@ -39,25 +39,25 @@ public class SimpleMethod {
     }
 
     public SimpleMethod method(String name, Object[] params, Class<?>... classes) {
-        if(!Object.class.isAssignableFrom(result())) {
+        if (!Object.class.isAssignableFrom(result())) {
             return null;
         }
 
         try {
             return new SimpleMethod(object(params), result().getDeclaredMethod(name, classes));
-        } catch(NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             return null;
         }
     }
 
     public SimpleField field(String name, Object... params) {
-        if(!Object.class.isAssignableFrom(result())) {
+        if (!Object.class.isAssignableFrom(result())) {
             return null;
         }
 
         try {
             return new SimpleField(object(params), result().getDeclaredField(name));
-        } catch(NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             return null;
         }
     }

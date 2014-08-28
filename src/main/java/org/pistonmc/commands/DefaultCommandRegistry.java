@@ -24,7 +24,7 @@ public class DefaultCommandRegistry implements CommandRegistry {
 
     @Override
     public void execute(String[] args, CommandSender sender) {
-        if(args.length < 1) {
+        if (args.length < 1) {
             return;
         }
 
@@ -32,9 +32,9 @@ public class DefaultCommandRegistry implements CommandRegistry {
         args = Arrays.copyOfRange(args, 1, args.length);
 
         Command command = null;
-        for(Command cmd : commandList) {
-            for(String s : cmd.getAliases()) {
-                if(s.equalsIgnoreCase(label)) {
+        for (Command cmd : commandList) {
+            for (String s : cmd.getAliases()) {
+                if (s.equalsIgnoreCase(label)) {
                     command = cmd;
                 }
             }
@@ -46,11 +46,11 @@ public class DefaultCommandRegistry implements CommandRegistry {
         Piston.getEventManager().call(event);
         command = event.getCommand();
 
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             return;
         }
 
-        if(command == null) {
+        if (command == null) {
             sender.sendMessage(ChatColor.RED + "Unknown command. Use \"/help\" for a list of commands.");
         } else {
             try {

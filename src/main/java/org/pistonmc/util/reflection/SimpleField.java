@@ -24,7 +24,7 @@ public class SimpleField {
     public <T> T value(Class<T> result) {
         try {
             return (T) field.get(parent.getObject());
-        } catch(IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
@@ -43,7 +43,7 @@ public class SimpleField {
         try {
             field.set(parent.getObject(), (T) value);
             return true;
-        } catch(IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
@@ -55,7 +55,7 @@ public class SimpleField {
     }
 
     public <T> SimpleField resultSet(Class<T> result, Object value) {
-        if(set(result, value)) {
+        if (set(result, value)) {
             return this;
         } else {
             return null;
@@ -63,25 +63,25 @@ public class SimpleField {
     }
 
     public SimpleMethod method(String name, Class<?>... params) {
-        if(!Object.class.isAssignableFrom(result())) {
+        if (!Object.class.isAssignableFrom(result())) {
             return null;
         }
 
         try {
             return new SimpleMethod(object(), result().getDeclaredMethod(name, params));
-        } catch(NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             return null;
         }
     }
 
     public SimpleField field(String name) {
-        if(!Object.class.isAssignableFrom(result())) {
+        if (!Object.class.isAssignableFrom(result())) {
             return null;
         }
 
         try {
             return new SimpleField(object(), result().getDeclaredField(name));
-        } catch(NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             return null;
         }
     }

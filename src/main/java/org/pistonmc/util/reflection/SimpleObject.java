@@ -32,10 +32,11 @@ public class SimpleObject {
         do {
             try {
                 method = cls.getDeclaredMethod(name, params);
-            } catch(NoSuchMethodException ignored) {}
+            } catch (NoSuchMethodException ignored) {
+            }
 
             cls = cls.getSuperclass();
-        } while(method == null && cls != Object.class);
+        } while (method == null && cls != Object.class);
 
         return method == null ? null : new SimpleMethod(this, method);
     }
@@ -47,10 +48,11 @@ public class SimpleObject {
         do {
             try {
                 field = cls.getDeclaredField(name);
-            } catch(NoSuchFieldException ignored) {}
+            } catch (NoSuchFieldException ignored) {
+            }
 
             cls = cls.getSuperclass();
-        } while(field == null && cls != Object.class);
+        } while (field == null && cls != Object.class);
 
         return field == null ? null : new SimpleField(this, field);
     }

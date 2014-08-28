@@ -67,8 +67,8 @@ public class Logger {
 
     public Logger setParent(Logger parent) {
         this.parent = parent;
-        while(format == null && parent != null) {
-            if(parent.getFormat() != null) {
+        while (format == null && parent != null) {
+            if (parent.getFormat() != null) {
                 format = parent.getFormat();
                 break;
             }
@@ -85,22 +85,22 @@ public class Logger {
     }
 
     public Logger log(LogLevel level, Object pre, Object... messages) {
-        if(level == DEBUG && !isDebug()) {
+        if (level == DEBUG && !isDebug()) {
             return this;
         }
 
-        for(Object message : messages) {
+        for (Object message : messages) {
             String prefix = "";
-            if(format != null || level != null) {
+            if (format != null || level != null) {
                 String formatPre = format != null ? format.format(new Date()) : "";
                 String levelPre = level != null ? level.getColor().toConsole() + level.name() + ChatColor.RESET.toConsole() : null;
                 prefix = "[" + formatPre + (formatPre != null && levelPre != null ? " " : "") + levelPre + "] ";
             }
 
             String msg = message.toString();
-            if(message instanceof Exception) {
+            if (message instanceof Exception) {
                 Exception ex = (Exception) message;
-                if(isDebug()) {
+                if (isDebug()) {
                     ex.printStackTrace();
                     continue;
                 }
@@ -109,7 +109,7 @@ public class Logger {
             }
 
             msg = ChatColor.getConsoleString(msg);
-            if(pre != null) {
+            if (pre != null) {
                 msg = pre.toString() + msg;
             }
 

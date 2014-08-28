@@ -1,8 +1,6 @@
 package org.pistonmc.configuration;
 
 import org.pistonmc.exception.configuration.IllegalConfigurationPathException;
-import org.pistonmc.logging.Logging;
-import org.pistonmc.util.OtherUtils;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -20,13 +18,13 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         String[] split = path.contains(".") ? path.split(".") : new String[]{path};
 
         ConfigurationSection previous = this;
-        for(int i = 0; i < split.length; i++) {
+        for (int i = 0; i < split.length; i++) {
             boolean last = i + 1 >= split.length;
-            if(last) {
+            if (last) {
                 previous.put(split[i], value);
             } else {
                 ConfigurationSection section = getSection(previous.get(split[i]));
-                if(section == null) {
+                if (section == null) {
                     section = new ConfigurationSection();
                     previous.set(split[i - 1], section);
                 }
@@ -37,13 +35,13 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
     }
 
     public Object get(String path) {
-        if(path.contains(".")) {
+        if (path.contains(".")) {
             String[] split = path.split(Pattern.quote("."));
 
             Object object = this;
-            for(int i = 0; i < split.length; i++) {
+            for (int i = 0; i < split.length; i++) {
                 ConfigurationSection section = getSection(object);
-                if(section == null) {
+                if (section == null) {
                     throw new IllegalConfigurationPathException(this, split, i + 1);
                 }
 
@@ -59,14 +57,14 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
     public <T> List<String> getKeys(Class<T> cls) {
         List<String> keys = new ArrayList<>();
-        for(Entry<String, Object> entry : entrySet()) {
+        for (Entry<String, Object> entry : entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
             try {
                 T val = (T) value;
                 keys.add(key);
-            } catch(ClassCastException ex) {
+            } catch (ClassCastException ex) {
                 /* ignored */
             }
         }
@@ -80,14 +78,14 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
     public <T> Map<String, T> getValues(Class<T> cls) {
         Map<String, T> values = new HashMap<>();
-        for(Entry<String, Object> entry : entrySet()) {
+        for (Entry<String, Object> entry : entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
             try {
                 T val = (T) value;
                 values.put(key, val);
-            } catch(ClassCastException ex) {
+            } catch (ClassCastException ex) {
                 /* ignored */
             }
         }
@@ -114,7 +112,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
     public Boolean getBoolean(String path) {
         try {
             return (Boolean) get(path);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -175,7 +173,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         try {
             List<?> objects = getList(path);
             List<String> strings = new ArrayList<>();
-            for(Object object : objects) {
+            for (Object object : objects) {
                 strings.add((String) object);
             }
 
@@ -209,21 +207,21 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
     private ConfigurationSection getSection(Object object) {
         try {
             return object == null ? null : (ConfigurationSection) object;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }
 
     public void fromMap(Map<?, ?> map) {
-        for(Entry<?, ?> entry : map.entrySet()) {
+        for (Entry<?, ?> entry : map.entrySet()) {
             String key = entry.getKey().toString();
             Object value = entry.getValue();
 
-            if(value == null) {
+            if (value == null) {
                 return;
             }
 
-            if(value instanceof Map) {
+            if (value instanceof Map) {
                 ConfigurationSection section = new ConfigurationSection();
                 section.fromMap((Map<?, ?>) value);
                 set(key, section);
@@ -235,11 +233,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
     public Map<String, Object> asMap() {
         Map<String, Object> map = new LinkedHashMap<>();
-        for(Entry<String, Object> entry : entrySet()) {
+        for (Entry<String, Object> entry : entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
 
-            if(value instanceof Configuration) {
+            if (value instanceof Configuration) {
                 Configuration configuration = (Configuration) value;
                 map.put(key, configuration.asMap());
             } else {

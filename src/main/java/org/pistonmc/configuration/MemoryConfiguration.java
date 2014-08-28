@@ -15,7 +15,7 @@ public abstract class MemoryConfiguration extends ConfigurationSection {
     public void load(InputStream stream) {
         try {
             load(IOUtils.toString(stream));
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             Logging.getLogger().log(ex);
         }
     }

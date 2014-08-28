@@ -19,7 +19,7 @@ public class Metadata {
     }
 
     public void put(int index, DataObject object) {
-        if(object == null) {
+        if (object == null) {
             return;
         }
 
@@ -27,7 +27,7 @@ public class Metadata {
     }
 
     public void write(PacketOutputStream stream) throws IOException {
-        for(DataObject object : objects.values()) {
+        for (DataObject object : objects.values()) {
             int header = (object.getType().getType() << 5 | object.getType().getType() & 0x1f) & 0xff;
             stream.writeByte(header);
             object.write(stream);

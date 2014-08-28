@@ -30,7 +30,7 @@ public class DataObject<T> {
     }
 
     public void write(PacketOutputStream stream) throws IOException {
-        switch(type.getType()) {
+        switch (type.getType()) {
             case 0:
                 stream.writeByte((Byte) value);
                 break;

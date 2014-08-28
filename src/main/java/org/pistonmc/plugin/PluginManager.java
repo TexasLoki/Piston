@@ -48,8 +48,8 @@ public class PluginManager<T extends Plugin> {
     }
 
     public Plugin getPlugin(Class<? extends Plugin> clazz) {
-        for(Plugin plugin : plugins) {
-            if(plugin.getClass().equals(clazz)) {
+        for (Plugin plugin : plugins) {
+            if (plugin.getClass().equals(clazz)) {
                 return plugin;
             }
         }
@@ -62,14 +62,14 @@ public class PluginManager<T extends Plugin> {
     }
 
     public Plugin getPlugin(String name, boolean sensitive) {
-        for(Plugin plugin : plugins) {
+        for (Plugin plugin : plugins) {
             String pluginName = plugin.getDescription().getName();
-            if(!sensitive) {
+            if (!sensitive) {
                 pluginName = pluginName.toLowerCase();
                 name = name.toLowerCase();
             }
 
-            if(pluginName.equals(name)) {
+            if (pluginName.equals(name)) {
                 return plugin;
             }
         }
@@ -81,7 +81,7 @@ public class PluginManager<T extends Plugin> {
         JarFile jar;
         try {
             jar = new JarFile(file, true);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             logger.log("Could not load plugin at " + file.getPath() + ": ", ex);
             return null;
         }
@@ -91,7 +91,7 @@ public class PluginManager<T extends Plugin> {
         try {
             InputStream stream = jar.getInputStream(entry);
             string = IOUtils.toString(stream);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.log("Could not load plugin at " + file.getPath() + ": ", ex);
             return null;
         }
@@ -99,7 +99,7 @@ public class PluginManager<T extends Plugin> {
         JSONObject manifest;
         try {
             manifest = new JSONObject(string);
-        } catch(JSONException ex) {
+        } catch (JSONException ex) {
             logger.log("Could not load " + file.getName() + " because it's " + config + " was not valid: ", ex);
             return null;
         }
@@ -107,10 +107,10 @@ public class PluginManager<T extends Plugin> {
         String name;
         try {
             name = manifest.getString("name");
-            if(name == null) {
+            if (name == null) {
                 throw new NullPointerException("name");
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.warning("Could not load " + file.getName() + " because it's " + config + " does not contain a valid name");
             return null;
         }
@@ -118,10 +118,10 @@ public class PluginManager<T extends Plugin> {
         String version;
         try {
             version = manifest.getString("version");
-            if(version == null) {
+            if (version == null) {
                 throw new NullPointerException("version");
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.warning("Could not load " + name + " because it's " + config + " does not contain a valid version");
             return null;
         }
@@ -129,25 +129,25 @@ public class PluginManager<T extends Plugin> {
         String main;
         try {
             main = manifest.getString("main");
-            if(main == null) {
+            if (main == null) {
                 throw new NullPointerException("main");
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.warning("Could not load " + name + " because it's " + config + " does not contain a valid main class");
             return null;
         }
 
         List<String> authors = new ArrayList<>();
-        if(manifest.has("authors")) {
+        if (manifest.has("authors")) {
             try {
                 JSONArray array = manifest.getJSONArray("authors");
-                for(int i = 0; i < array.length(); i++) {
+                for (int i = 0; i < array.length(); i++) {
                     String author = array.getString(i);
-                    if(author != null) {
+                    if (author != null) {
                         authors.add(author);
                     }
                 }
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 logger.warning("Ignoring the list of authors from " + name + " because the JSONArray was invalid");
             }
         }
@@ -155,7 +155,7 @@ public class PluginManager<T extends Plugin> {
         URLClassLoader loader;
         try {
             loader = ClassPathLoader.addFile(file);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             logger.info("Invalid plugin.json for " + name + ": Could not load " + file.getName() + " into the classpath");
             return null;
         }
@@ -163,12 +163,12 @@ public class PluginManager<T extends Plugin> {
         Class<?> plugin;
         try {
             plugin = Class.forName(main);
-        } catch(ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             logger.info("Invalid " + config + " for " + name + ": " + main + " does not exist");
             return null;
         }
 
-        if(!Plugin.class.isAssignableFrom(plugin)) {
+        if (!Plugin.class.isAssignableFrom(plugin)) {
             logger.info("Invalid " + config + " for " + name + ": " + main + " is not assignable from " + Plugin.class.getSimpleName());
             return null;
         }
@@ -178,7 +178,7 @@ public class PluginManager<T extends Plugin> {
             T loaded = load((Class<T>) plugin, description, loader, file);
             plugins.add(loaded);
             return loaded;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.log("Failed to load " + name + ": ", ex);
         }
 
@@ -229,7 +229,7 @@ public class PluginManager<T extends Plugin> {
         load(plugin);
 
         plugin.getLogger().info("Loaded " + description.getName() + " v" + description.getVersion());
-        if(add) {
+        if (add) {
             plugins.add(plugin);
         }
         return plugin;
@@ -241,7 +241,7 @@ public class PluginManager<T extends Plugin> {
         try {
             ((URLClassLoader) new SimpleObject(plugin, Plugin.class).field("loader").value()).close();
             return true;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             logger.log("Could not unload " + plugin.getDescription().getName() + ": ", ex);
             return false;
         }
@@ -252,20 +252,20 @@ public class PluginManager<T extends Plugin> {
         // unload(plugin);
         plugin.setEnabled(false);
         plugin = load(file);
-        if(plugin != null) {
+        if (plugin != null) {
             plugin.setEnabled(true);
         }
     }
 
     public void reload(boolean enable) {
-        for(T plugin : plugins) {
+        for (T plugin : plugins) {
             plugin.setEnabled(false);
         }
 
         plugins = new ArrayList<>();
 
-        if(!folder.exists()) {
-            if(folder.mkdirs()) {
+        if (!folder.exists()) {
+            if (folder.mkdirs()) {
                 logger.info("Plugins folder did not exist, created one at " + folder.getPath());
             } else {
                 logger.info("Failed to create plugins folder at " + folder.getPath());
@@ -274,27 +274,27 @@ public class PluginManager<T extends Plugin> {
             }
         }
 
-        if(!folder.isDirectory()) {
+        if (!folder.isDirectory()) {
             logger.info("The plugins folder, " + folder.getPath() + " is not a directory");
             Piston.shutdown();
             return;
         }
 
-        for(File file : folder.listFiles()) {
-            if(file.getName().toLowerCase().endsWith(".jar")) {
+        for (File file : folder.listFiles()) {
+            if (file.getName().toLowerCase().endsWith(".jar")) {
                 load(file);
             }
         }
 
-        if(enable) {
-            for(T plugin : plugins) {
+        if (enable) {
+            for (T plugin : plugins) {
                 enable(plugin);
             }
         }
     }
 
     public void enable() {
-        for(T plugin : plugins) {
+        for (T plugin : plugins) {
             enable(plugin);
         }
     }

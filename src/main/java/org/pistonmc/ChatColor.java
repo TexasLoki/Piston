@@ -71,8 +71,8 @@ public enum ChatColor {
     }
 
     public static ChatColor getByChar(char code) {
-        for(ChatColor color : values()) {
-            if(color.code == code) {
+        for (ChatColor color : values()) {
+            if (color.code == code) {
                 return color;
             }
         }
@@ -88,7 +88,7 @@ public enum ChatColor {
     }
 
     public static String stripColor(final String input) {
-        if(input == null) {
+        if (input == null) {
             return null;
         }
 
@@ -98,9 +98,9 @@ public enum ChatColor {
     public static String translate(char ch, String string) {
         char[] b = string.toCharArray();
         for (int i = 0; i < b.length - 1; i++) {
-            if (b[i] == ch && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i+1]) > -1) {
+            if (b[i] == ch && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1) {
                 b[i] = COLOR_CHAR;
-                b[i+1] = Character.toLowerCase(b[i+1]);
+                b[i + 1] = Character.toLowerCase(b[i + 1]);
             }
         }
 
@@ -108,7 +108,7 @@ public enum ChatColor {
     }
 
     public static String getConsoleString(String input) {
-        for(ChatColor color : values()) {
+        for (ChatColor color : values()) {
             input = input.replace(color.toString(), color.toConsole());
         }
 

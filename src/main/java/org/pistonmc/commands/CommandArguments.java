@@ -23,7 +23,7 @@ public class CommandArguments {
     }
 
     public boolean getBoolean(int position) {
-        return array[position].equalsIgnoreCase("true") || array[position+1].equalsIgnoreCase("yes");
+        return array[position].equalsIgnoreCase("true") || array[position + 1].equalsIgnoreCase("yes");
     }
 
     public String[] getArguments() {

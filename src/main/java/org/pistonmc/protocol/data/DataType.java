@@ -25,8 +25,8 @@ public enum DataType {
     }
 
     public static DataType valueOf(byte id) {
-        for(DataType type : values()) {
-            if(type.getType() == id) {
+        for (DataType type : values()) {
+            if (type.getType() == id) {
                 return type;
             }
         }

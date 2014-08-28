@@ -35,14 +35,14 @@ public class EventMethod<E extends Event> {
     }
 
     public void handle(E event, Logger logger) {
-        if(handler.ignoreCancelled() && event instanceof Cancellable && ((Cancellable) event).isCancelled()) {
+        if (handler.ignoreCancelled() && event instanceof Cancellable && ((Cancellable) event).isCancelled()) {
             return;
         }
 
-        if((handler.classMatches() && this.event.equals(event.getClass())) || (!handler.classMatches() && this.event.isAssignableFrom(event.getClass()))) {
+        if ((handler.classMatches() && this.event.equals(event.getClass())) || (!handler.classMatches() && this.event.isAssignableFrom(event.getClass()))) {
             try {
                 method.invoke(listener, event);
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 logger.log("Could not invoke " + method.getName() + "(" + this.event.getSimpleName() + ") from " + listener.getClass().getSimpleName(), ex);
             }
         }

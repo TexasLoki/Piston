@@ -23,8 +23,8 @@ public enum Animation {
     }
 
     public static Animation valueOf(int id) {
-        for(Animation animation : values()) {
-            if(animation.getId() == id) {
+        for (Animation animation : values()) {
+            if (animation.getId() == id) {
                 return animation;
             }
         }

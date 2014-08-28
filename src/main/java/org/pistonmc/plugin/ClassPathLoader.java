@@ -25,7 +25,7 @@ public class ClassPathLoader {
             Method method = sysclass.getDeclaredMethod("addURL", URL.class);
             method.setAccessible(true);
             method.invoke(sysloader, u);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw new IOException("Error, could not add URL to system classloader");
         }

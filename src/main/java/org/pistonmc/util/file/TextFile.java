@@ -12,8 +12,8 @@ import java.util.List;
 
 public class TextFile {
 
-	private File file;
-	private boolean append;
+    private File file;
+    private boolean append;
     private List<String> lines;
 
     public TextFile(File file, boolean append) {
@@ -40,8 +40,8 @@ public class TextFile {
 
     public void addLine(String line) {
         String[] split = line.contains("\n") ? line.split("\n") : new String[]{line};
-        for(String str : split) {
-            if(!str.equals("")) {
+        for (String str : split) {
+            if (!str.equals("")) {
                 lines.add(str);
             }
         }
@@ -54,25 +54,25 @@ public class TextFile {
             file.createNewFile();
             FileWriter writer = new FileWriter(file, append);
             PrintWriter printer = new PrintWriter(writer);
-            for(String line : lines) {
-                printer.printf("%s" + "%n" , line);
+            for (String line : lines) {
+                printer.printf("%s" + "%n", line);
             }
             printer.close();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
     public void load() {
-        if(file.exists() && file.isDirectory()) {
+        if (file.exists() && file.isDirectory()) {
             Logging.getLogger().warning("Could not load '" + file.getName() + "' because it was a directory");
             return;
         }
 
-        if(append && file.exists()) {
+        if (append && file.exists()) {
             try {
                 lines = Files.readAllLines(file.toPath());
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         } else {

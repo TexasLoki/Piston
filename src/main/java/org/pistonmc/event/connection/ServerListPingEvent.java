@@ -84,13 +84,13 @@ public class ServerListPingEvent extends Event implements Cancellable {
     }
 
     public void setMotd(boolean replace, char ch, String... lines) {
-        if(lines.length > 2) {
+        if (lines.length > 2) {
             throw new IllegalMotdException("Multiline MOTDs may only contain up to 2 lines");
         }
 
-        if(lines.length <= 0) {
+        if (lines.length <= 0) {
             setMotd(replace, ch, "");
-        } else if(lines.length == 1) {
+        } else if (lines.length == 1) {
             setMotd(replace, ch, lines[0]);
         } else {
             setMotd(replace, ch, lines[0] + "\n" + ChatColor.RESET + lines[1]);
@@ -99,7 +99,7 @@ public class ServerListPingEvent extends Event implements Cancellable {
 
     public void setMotd(List<String> lines) {
         String[] strings = new String[lines.size()];
-        for(int i = 0; i < lines.size(); i++) {
+        for (int i = 0; i < lines.size(); i++) {
             String string = lines.get(i);
             strings[i] = string;
         }
@@ -109,7 +109,7 @@ public class ServerListPingEvent extends Event implements Cancellable {
 
     public void setMotd(boolean replace, char ch, List<String> lines) {
         String[] strings = new String[lines.size()];
-        for(int i = 0; i < lines.size(); i++) {
+        for (int i = 0; i < lines.size(); i++) {
             String string = lines.get(i);
             strings[i] = string;
         }
