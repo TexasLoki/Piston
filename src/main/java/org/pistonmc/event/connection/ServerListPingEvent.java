@@ -3,6 +3,7 @@ package org.pistonmc.event.connection;
 import org.json.JSONObject;
 import org.pistonmc.event.Cancellable;
 import org.pistonmc.event.Event;
+import org.pistonmc.exception.IllegalMotdException;
 import org.pistonmc.util.ChatFormatter;
 
 public class ServerListPingEvent extends Event implements Cancellable {
@@ -69,6 +70,20 @@ public class ServerListPingEvent extends Event implements Cancellable {
 
     public void setMotd(String motd) {
         this.motd = motd;
+    }
+
+    public void setMotd(String... lines) {
+        if(lines.length > 2) {
+            throw new IllegalMotdException("Multiline MOTDs may only contain up to 2 lines");
+        }
+
+        if(lines.length <= 0) {
+            setMotd("");
+        } else if(lines.length == 1) {
+            setMotd(lines[0]);
+        } else {
+            setMotd(lines[0] + "\n" + lines[1]);
+        }
     }
 
     public boolean isCancelled() {
