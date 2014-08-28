@@ -2,8 +2,7 @@ package org.pistonmc.configuration;
 
 import org.pistonmc.exception.configuration.IllegalConfigurationPathException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class ConfigurationSection extends LinkedHashMap<String, Object> implements Configuration {
@@ -52,6 +51,132 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         } else {
             return super.get(path);
         }
+    }
+
+    public <T> List<String> getKeys(Class<T> cls) {
+        List<String> keys = new ArrayList<>();
+        for(Entry<String, Object> entry : entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            try {
+                T val = (T) value;
+                keys.add(key);
+            } catch(ClassCastException ex) {
+                /* ignored */
+            }
+        }
+
+        return keys;
+    }
+
+    public List<String> getKeys(String path, Class<?> cls) {
+        return getSection(path).getKeys(cls);
+    }
+
+    public <T> Map<String, T> getValues(Class<T> cls) {
+        Map<String, T> values = new HashMap<>();
+        for(Entry<String, Object> entry : entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            try {
+                T val = (T) value;
+                values.put(key, val);
+            } catch(ClassCastException ex) {
+                /* ignored */
+            }
+        }
+
+        return values;
+    }
+
+    public <T> Map<String, T> getValues(String path, Class<T> cls) {
+        return getSection(path).getValues(cls);
+    }
+
+    public String getString(String path) {
+        try {
+            return (String) get(path);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setString(String path, String value) {
+        set(path, value);
+    }
+
+    public Integer getInteger(String path) {
+        try {
+            return (int) get(path);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setInteger(String path, int value) {
+        set(path, value);
+    }
+
+    public Double getDouble(String path) {
+        try {
+            return (Double) get(path);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setDouble(String path, double value) {
+        set(path, value);
+    }
+
+    public Float getFloat(String path) {
+        try {
+            return (Float) get(path);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setFloat(String path, float value) {
+        set(path, value);
+    }
+
+    public Long getLong(String path) {
+        try {
+            return (Long) get(path);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setLong(String path, long value) {
+        set(path, value);
+    }
+
+    public List<String> getStringList(String path) {
+        try {
+            return (List<String>) get("path");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setStringList(String path, List<String> value) {
+        set(path, value);
+    }
+
+    public List getList(String path) {
+        try {
+            return (List) get("path");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setList(String path, List value) {
+        set(path, value);
     }
 
     public ConfigurationSection getSection(String path) {
