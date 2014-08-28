@@ -1,7 +1,5 @@
 package org.pistonmc.util.reflection;
 
-import org.pistonmc.logging.Logging;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -12,6 +10,10 @@ public class SimpleObject {
 
     public SimpleObject(Object object) {
         this(object, object.getClass());
+    }
+
+    public SimpleObject(Class<?> type) {
+        this(null, type);
     }
 
     public SimpleObject(Object object, Class<?> type) {
