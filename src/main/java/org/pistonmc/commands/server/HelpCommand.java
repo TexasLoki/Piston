@@ -2,6 +2,7 @@ package org.pistonmc.commands.server;
 
 import org.pistonmc.Piston;
 import org.pistonmc.commands.Command;
+import org.pistonmc.commands.CommandArguments;
 import org.pistonmc.commands.CommandSender;
 
 public class HelpCommand implements Command {
@@ -22,7 +23,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public void onExecute(String[] args, CommandSender sender) {
+    public void onExecute(CommandArguments args, CommandSender sender) {
         for (Command c : Piston.getCommandRegistry().getCommands()) {
             sender.sendMessage(c.getAliases()[0] + (c.getUsage().equals("") ? "" : " " + c.getUsage()) + " - " + c.getDescription());
         }

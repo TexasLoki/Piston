@@ -5,6 +5,6 @@ public interface Command {
     public String[] getAliases();
     public String getDescription();
     public String getUsage();
-    public void onExecute(String[] args, CommandSender sender);
+    public void onExecute(CommandArguments args, CommandSender sender);
 
 }

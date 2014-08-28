@@ -1,6 +1,7 @@
 package org.pistonmc.commands.server;
 
 import org.pistonmc.commands.Command;
+import org.pistonmc.commands.CommandArguments;
 import org.pistonmc.commands.CommandSender;
 
 public class TestCommand implements Command {
@@ -21,8 +22,8 @@ public class TestCommand implements Command {
     }
 
     @Override
-    public void onExecute(String[] args, CommandSender sender) {
-        for (String s : args) {
+    public void onExecute(CommandArguments args, CommandSender sender) {
+        for (String s : args.getArguments()) {
             sender.sendMessage(s);
         }
     }

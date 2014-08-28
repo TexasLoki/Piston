@@ -26,7 +26,7 @@ public class DefaultCommandRegistry implements CommandRegistry {
         Command command = null;
         for (Command c : commandList) {
             for (String s : c.getAliases()) {
-                if (s.equalsIgnoreCase(args[0].toLowerCase())) {
+                if (s.equalsIgnoreCase(args[0])) {
                     command = c;
                 }
             }
@@ -35,8 +35,7 @@ public class DefaultCommandRegistry implements CommandRegistry {
             sender.sendMessage(ChatColor.RED + "Unknown command. Use \"/help\" for a list of commands.");
         } else {
             try {
-                command.onExecute(args, sender);
-                // TODO: Replace args with custom args object.
+                command.onExecute(new CommandArguments(args), sender);
             } catch (Exception e) {
                 sender.sendMessage(ChatColor.RED + "There was an error while processing your command.");
                 Piston.getLogger().debug(e);
