@@ -275,7 +275,7 @@ public class PluginManager<T extends Plugin> {
         }
 
         if(!folder.isDirectory()) {
-            logger.info("The plugins folder, " + folder.getPath() + " is a directory");
+            logger.info("The plugins folder, " + folder.getPath() + " is not a directory");
             Piston.shutdown();
             return;
         }
