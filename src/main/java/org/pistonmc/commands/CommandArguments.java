@@ -23,7 +23,13 @@ public class CommandArguments {
     }
 
     public boolean getBoolean(int position) {
-        return array[position].equalsIgnoreCase("true") || array[position+1].equalsIgnoreCase("yes");
+        if (array[position].equalsIgnoreCase("true") || array[position].equalsIgnoreCase("yes")) {
+            return true;
+        } else if (array[position].equalsIgnoreCase("false") || array[position].equalsIgnoreCase("no")) {
+            return false;
+        } else {
+            throw new IllegalArgumentException("Boolean must either be true/false/yes/no");
+        }
     }
 
     public String[] getArguments() {
