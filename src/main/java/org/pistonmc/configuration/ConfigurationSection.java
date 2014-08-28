@@ -21,7 +21,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         for(int i = 0; i < split.length; i++) {
             boolean last = i + 1 >= split.length;
             if(last) {
-                previous.set(split[i], value);
+                previous.put(split[i], value);
             } else {
                 ConfigurationSection section = getSection(previous.get(split[i]));
                 if(section == null) {
@@ -71,6 +71,10 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
             String key = entry.getKey().toString();
             Object value = entry.getValue();
 
+            if(value == null) {
+                return;
+            }
+
             if(value instanceof Map) {
                 ConfigurationSection section = new ConfigurationSection();
                 section.fromMap((Map<?, ?>) value);
@@ -91,7 +95,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
                 ConfigurationSection section = (ConfigurationSection) value;
                 map.put(key, section.asMap());
             } else {
-                set(key, value);
+                map.put(key, value);
             }
         }
 

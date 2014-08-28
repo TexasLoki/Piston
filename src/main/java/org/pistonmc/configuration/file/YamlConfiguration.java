@@ -1,6 +1,7 @@
 package org.pistonmc.configuration.file;
 
 import org.pistonmc.exception.configuration.InvalidConfigurationException;
+import org.pistonmc.logging.Logging;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -22,6 +23,7 @@ public class YamlConfiguration extends FileConfiguration {
             throw new InvalidConfigurationException(this, "Configuration string cannot be null");
         }
 
+        Logging.getLogger().debug("Loading \n" + string);
         Map<?, ?> input;
         try {
             input = (Map<?, ?>) yaml.load(string);
@@ -31,12 +33,18 @@ public class YamlConfiguration extends FileConfiguration {
             throw new InvalidConfigurationException(this, "Top level is not a Map");
         }
 
+        if(input == null) {
+            return;
+        }
+
         fromMap(input);
     }
 
     @Override
     public String saveToString() {
-        return yaml.dump(asMap());
+        Map<String, Object> map = asMap();
+        Logging.getLogger().info("\n" + map);
+        return yaml.dump(map);
     }
 
 }

@@ -27,11 +27,13 @@ public class Config extends YamlConfiguration {
 	}
 
 	public void reload() {
+        FileNotFoundException fnfe = null;
 		try {
 			load(file);
+            Logging.getLogger().debug("Loaded from " + file);
 			return;
 		} catch(FileNotFoundException ex) {
-			/* nothing */
+            fnfe = ex;
 		} catch(IOException | InvalidConfigurationException ex) {
             Logging.getLogger().log("Cannot load " + file, ex);
 		}
@@ -42,8 +44,26 @@ public class Config extends YamlConfiguration {
 		InputStream defConfigStream = plugin.getResource(def);
 		if(defConfigStream != null) {
             load(defConfigStream);
+            Logging.getLogger().debug("Loaded from " + defConfigStream);
 			save();
+            return;
 		}
+
+        if(fnfe != null) {
+            file.getParentFile().mkdirs();
+            try {
+                file.delete();
+                boolean created = file.createNewFile();
+                if(!created) {
+                    Logging.getLogger().log(Level.SEVERE, "Cannot load " + file + " because an empty file could not be created");
+                    return;
+                }
+
+                reload();
+            } catch(IOException e) {
+                Logging.getLogger().log(Level.SEVERE, "Cannot load " + file, fnfe);
+            }
+        }
 	}
 
 	public void save() {
@@ -52,7 +72,7 @@ public class Config extends YamlConfiguration {
 		}
 
 		try {
-			file.mkdirs();
+			file.getParentFile().mkdirs();
 			save(file);
 		} catch(IOException ex) {
 			plugin.getLogger().severe("Could not save config to " + file + " " + ex.getMessage());
@@ -60,30 +80,9 @@ public class Config extends YamlConfiguration {
 	}
 
 	public static Config load(JavaPlugin plugin, File file, String def) {
-		try {
-			Config config = new Config(plugin, file, def);
-			config.load(file);
-			config.reload();
-			return config;
-		} catch(FileNotFoundException ex) {
-			file.mkdirs();
-			try {
-				file.delete();
-				boolean created = file.createNewFile();
-				if(!created) {
-					Logging.getLogger().log(Level.SEVERE, "Cannot load " + file + " because an empty file could not be created");
-					return null;
-				}
-
-				return load(plugin, file, def);
-			} catch(IOException e) {
-                Logging.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-			}
-		} catch(IOException | InvalidConfigurationException ex) {
-            Logging.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-		}
-
-		return null;
+        Config config = new Config(plugin, file, def);
+        config.reload();
+        return config;
 	}
 
 	public static Config load(JavaPlugin plugin, File file) {

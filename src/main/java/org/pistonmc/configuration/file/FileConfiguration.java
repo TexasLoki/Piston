@@ -3,10 +3,12 @@ package org.pistonmc.configuration.file;
 import org.apache.commons.io.IOUtils;
 import org.pistonmc.configuration.ConfigurationSection;
 import org.pistonmc.configuration.MemoryConfiguration;
+import org.pistonmc.logging.Logging;
 import org.pistonmc.util.file.TextFile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public abstract class FileConfiguration extends MemoryConfiguration {
@@ -19,10 +21,20 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         load(string);
     }
 
-    public boolean save(File file) throws IOException {
-        TextFile text = new TextFile(file);
-        text.line(saveToString());
-        return text.save();
+    public void save(File file) throws IOException {
+        TextFile text = new TextFile(file, false);
+        String string = saveToString();
+        Logging.getLogger().info("YAML: \n" + string);
+        /*
+        String[] split = string.contains("\n") ? string.split("\n") : new String[]{string};
+        for(String str : split) {
+            if(!str.equals("")) {
+                text.line(str);
+            }
+        }
+        */
+        text.addLine(string);
+        text.save();
     }
 
 }

@@ -104,4 +104,23 @@ public class OtherUtils {
         return builder.toString();
     }
 
+    public static <T> String join(List<T> list, String join) {
+        return join(list, join, list.size());
+    }
+
+    public static <T> String join(List<T> list, String join, int limit) {
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < list.size() && i < limit; i++) {
+            builder.append(list.get(i).toString());
+
+            int pos = i + 1;
+            boolean last = pos < list.size() && pos < limit;
+            if(!last) {
+                builder.append(join);
+            }
+        }
+
+        return builder.toString();
+    }
+
 }

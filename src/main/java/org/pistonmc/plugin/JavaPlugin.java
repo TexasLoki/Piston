@@ -34,6 +34,10 @@ public class JavaPlugin implements Plugin {
         return dataFolder;
     }
 
+    public Config getConfig() {
+        return config;
+    }
+
     public void onLoad() {
 
     }
@@ -83,8 +87,17 @@ public class JavaPlugin implements Plugin {
             ZipEntry entry = jar.getEntry(name);
             return jar.getInputStream(entry);
         } catch(IOException ex) {
+            ex.printStackTrace();
             return null;
         }
+    }
+
+    public void reloadConfig() {
+        config.reload();
+    }
+
+    public void saveConfig() {
+        config.save();
     }
 
 }

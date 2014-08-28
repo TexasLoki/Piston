@@ -1,53 +1,84 @@
 package org.pistonmc.util.file;
 
+import org.pistonmc.logging.Logging;
+import org.pistonmc.util.OtherUtils;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TextFile {
 
 	private File file;
 	private boolean append;
-	private FileWriter writer;
-	private PrintWriter printer;
+    private List<String> lines;
 
-	public TextFile(File file, boolean append) throws IOException {
-		this.file = file;
-		this.append = append;
-		this.writer = new FileWriter(file, append);
-		this.printer = new PrintWriter(writer);
-	}
+    public TextFile(File file, boolean append) {
+        this.file = file;
+        this.append = append;
+        load();
+    }
 
-	public TextFile(File file) throws IOException {
-		this(file, true);
-	}
+    public TextFile(File file) {
+        this(file, true);
+    }
 
-	public FileWriter getWriter() {
-		return writer;
-	}
+    public File getFile() {
+        return file;
+    }
 
-	public PrintWriter getPrinter() {
-		return printer;
-	}
+    public boolean isAppend() {
+        return append;
+    }
 
-	public void line(String line) {
-		printer.printf("%s" + "%n" , line);
-	}
+    public List<String> getLines() {
+        return lines;
+    }
 
-	public boolean save() {
-		printer.close();
-		try {
-			writer = new FileWriter(file, append);
-			printer = new PrintWriter(writer);
-			return true;
-		} catch(IOException ex) {
-			return false;
-		}
-	}
+    public void addLine(String line) {
+        String[] split = line.contains("\n") ? line.split("\n") : new String[]{line};
+        for(String str : split) {
+            if(!str.equals("")) {
+                lines.add(str);
+            }
+        }
+    }
 
-	public void close() {
-		printer.close();
-	}
+    public void save() {
+        file.delete();
+
+        try {
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file, append);
+            PrintWriter printer = new PrintWriter(writer);
+            for(String line : lines) {
+                printer.printf("%s" + "%n" , line);
+            }
+            printer.close();
+        } catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void load() {
+        if(file.exists() && file.isDirectory()) {
+            Logging.getLogger().warning("Could not load '" + file.getName() + "' because it was a directory");
+            return;
+        }
+
+        if(append && file.exists()) {
+            try {
+                lines = Files.readAllLines(file.toPath());
+            } catch(IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            lines = new ArrayList<>();
+        }
+    }
 
 }
