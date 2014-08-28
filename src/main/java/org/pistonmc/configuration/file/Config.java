@@ -29,28 +29,29 @@ public class Config extends YamlConfiguration {
 	}
 
 	public void reload() {
-        FileNotFoundException fnfe = null;
+        // FileNotFoundException fnfe = null;
 		try {
 			load(file);
             Logging.getLogger().debug("Loaded from " + file);
 			return;
 		} catch(FileNotFoundException ex) {
-            fnfe = ex;
+            // fnfe = ex;
+            /* ignored */
 		} catch(IOException | InvalidConfigurationException ex) {
             plugin.getLogger().log("Cannot load " + file, ex);
 		}
-
-		plugin.getLogger().debug("Loading defaults from " + def);
 
 		// Look for defaults in the jar
         def = def != null ? def : file.getName();
 		InputStream defConfigStream = plugin.getResource(def);
 		if(defConfigStream != null) {
+            plugin.getLogger().debug("Loading defaults from " + def);
             load(defConfigStream);
             plugin.getLogger().debug("Loaded from " + defConfigStream);
             return;
 		}
 
+        /*
         if(fnfe != null) {
             file.getParentFile().mkdirs();
             try {
@@ -66,6 +67,7 @@ public class Config extends YamlConfiguration {
                 plugin.getLogger().log(Level.SEVERE, "Cannot load " + file, fnfe);
             }
         }
+        */
 	}
 
 	public void save() {
