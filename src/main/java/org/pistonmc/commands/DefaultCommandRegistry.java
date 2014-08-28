@@ -28,24 +28,33 @@ public class DefaultCommandRegistry implements CommandRegistry {
             return;
         }
 
+        String label = args[0];
+        args = Arrays.copyOfRange(args, 1, args.length);
+
         Command command = null;
         for(Command cmd : commandList) {
             for(String s : cmd.getAliases()) {
-                if(s.equalsIgnoreCase(args[0])) {
+                if(s.equalsIgnoreCase(label)) {
                     command = cmd;
                 }
             }
         }
 
-        CommandPreProcessEvent event = new CommandPreProcessEvent(command);
+        CommandArguments arguments = new CommandArguments(label, args);
+
+        CommandPreProcessEvent event = new CommandPreProcessEvent(command, arguments, sender);
         Piston.getEventManager().call(event);
         command = event.getCommand();
+
+        if(event.isCancelled()) {
+            return;
+        }
 
         if(command == null) {
             sender.sendMessage(ChatColor.RED + "Unknown command. Use \"/help\" for a list of commands.");
         } else {
             try {
-                command.onExecute(new CommandArguments(args[0], Arrays.copyOfRange(args, 1, args.length)), sender);
+                command.onExecute(arguments, sender);
             } catch (Exception e) {
                 sender.sendMessage(ChatColor.RED + "There was an error while processing your command.");
                 Piston.getLogger().debug(e);
