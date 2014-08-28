@@ -7,6 +7,7 @@ import org.pistonmc.commands.server.TestCommand;
 import org.pistonmc.event.command.CommandPreProcessEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class DefaultCommandRegistry implements CommandRegistry {
             sender.sendMessage(ChatColor.RED + "Unknown command. Use \"/help\" for a list of commands.");
         } else {
             try {
-                command.onExecute(new CommandArguments(args), sender);
-            } catch(Exception e) {
+                command.onExecute(new CommandArguments(args[0], Arrays.copyOfRange(args, 1, args.length)), sender);
+            } catch (Exception e) {
                 sender.sendMessage(ChatColor.RED + "There was an error while processing your command.");
                 Piston.getLogger().debug(e);
             }
