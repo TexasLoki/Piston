@@ -73,6 +73,11 @@
             <artifactId>netty-all</artifactId>
             <version>5.0.0.Alpha1</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.49</version>
+        </dependency>
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -118,6 +123,7 @@
                                     <include>org.yaml:snakeyaml</include>
                                     <include>commons-io:commons-io</include>
                                     <include>com.evilco.mc:nbt</include>
+                                    <include>org.bouncycastle:bcprov-jdk15on</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
