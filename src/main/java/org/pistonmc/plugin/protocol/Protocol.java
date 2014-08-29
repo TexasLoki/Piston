@@ -34,12 +34,16 @@ public abstract class Protocol extends JavaPlugin {
         this(parent.version);
         this.parent = parent;
         this.packets = parent.packets;
-        manager.load(this, parent, false);
+        manager.load(this, parent, false, false);
     }
 
     protected Protocol(Protocol parent, PlayerConnection connection, ProtocolManager manager) {
         this(parent, manager);
         this.connection = connection;
+    }
+
+    public Map<ProtocolState, Map<Integer, Class<? extends IncomingPacket>>> getPackets() {
+        return parent != null ? parent.getPackets() : packets;
     }
 
     protected void add(IncomingPacket packet) {
@@ -60,6 +64,7 @@ public abstract class Protocol extends JavaPlugin {
         try {
             return cls.getConstructor().newInstance();
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new IllegalProtocolException(version, "Could not find " + state.name() + " Packet with id #" + id);
         }
     }

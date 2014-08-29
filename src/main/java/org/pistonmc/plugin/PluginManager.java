@@ -210,11 +210,19 @@ public class PluginManager<T extends Plugin> {
         return load(plugin, parent, parent.getDescription().getName(), parent.getDescription().getVersion(), parent.getDescription().getAuthors(), add);
     }
 
+    public T load(T plugin, T parent, boolean add, boolean message) {
+        return load(plugin, parent, parent.getDescription().getName(), parent.getDescription().getVersion(), parent.getDescription().getAuthors(), add, message);
+    }
+
     public T load(T plugin, T parent, String name, String version, List<String> authors) {
         return load(plugin, parent, name, version, authors, false);
     }
 
     public T load(T plugin, T parent, String name, String version, List<String> authors, boolean add) {
+        return load(plugin, parent, name, version, authors, add, true);
+    }
+
+    public T load(T plugin, T parent, String name, String version, List<String> authors, boolean add, boolean message) {
         SimpleObject parentObject = new SimpleObject(parent);
         SimpleObject object = new SimpleObject(plugin);
         object.field("loader").set(parentObject.field("loader").value());
@@ -228,7 +236,10 @@ public class PluginManager<T extends Plugin> {
 
         load(plugin);
 
-        plugin.getLogger().info("Loaded " + description.getName() + " v" + description.getVersion());
+        if (message) {
+            plugin.getLogger().info("Loaded " + description.getName() + " v" + description.getVersion());
+        }
+
         if (add) {
             plugins.add(plugin);
         }
