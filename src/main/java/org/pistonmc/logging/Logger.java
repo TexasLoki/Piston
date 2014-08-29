@@ -87,12 +87,6 @@ public class Logger {
     }
 
     public Logger log(LogLevel level, Object pre, Object... messages) {
-        for (Object o : messages) {
-            if (o instanceof Exception) {
-                Piston.getEventManager().call(new ExceptionCaughtEvent((Exception) o));
-            }
-        }
-
         if(level == DEBUG && !isDebug()) {
             return this;
         }
@@ -109,6 +103,7 @@ public class Logger {
             if (message instanceof Exception) {
                 Exception ex = (Exception) message;
                 if (isDebug()) {
+                    Piston.getEventManager().call(new ExceptionCaughtEvent(ex));
                     ex.printStackTrace();
                     continue;
                 }

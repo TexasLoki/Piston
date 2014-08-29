@@ -31,6 +31,10 @@ public class HandshakePacket extends IncomingPacket {
         return state;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public void read(UnreadPacket packet) throws PacketException, IOException {
         this.version = packet.getStream().readVarInt();

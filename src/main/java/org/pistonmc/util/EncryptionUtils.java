@@ -9,6 +9,8 @@ public class EncryptionUtils {
 
     private static SecureRandom random = new SecureRandom();
 
+    private static KeyPair keys;
+
     private EncryptionUtils() {
     }
 
@@ -30,6 +32,11 @@ public class EncryptionUtils {
         byte[] token = new byte[4];
         random.nextBytes(token);
         return token;
+    }
+
+    public static KeyPair getKeys() {
+        if (keys == null) keys = generateKeyPair();
+        return keys;
     }
 
     public static Key generateX509Key(Key base) {

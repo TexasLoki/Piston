@@ -4,10 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class OtherUtils {
@@ -121,6 +118,14 @@ public class OtherUtils {
         }
 
         return builder.toString();
+    }
+
+    public static UUID uuidFromString(String s) {
+        if (s.contains("-")) {
+            return UUID.fromString(s);
+        } else {
+            return UUID.fromString(s.replaceFirst("([0-9a-fA-F]{8})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]+)", "$1-$2-$3-$4-$5"));
+        }
     }
 
 }
