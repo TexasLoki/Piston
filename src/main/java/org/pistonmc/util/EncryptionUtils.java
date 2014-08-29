@@ -1,7 +1,17 @@
 package org.pistonmc.util;
 
+import org.bouncycastle.crypto.BufferedBlockCipher;
+import org.bouncycastle.crypto.engines.AESFastEngine;
+import org.bouncycastle.crypto.io.CipherInputStream;
+import org.bouncycastle.crypto.io.CipherOutputStream;
+import org.bouncycastle.crypto.modes.CFBBlockCipher;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.pistonmc.logging.Logging;
 
+import javax.crypto.SecretKey;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 
@@ -51,6 +61,20 @@ public class EncryptionUtils {
         }
 
         return key;
+    }
+
+    public static OutputStream encryptOutputStream(OutputStream outputStream, SecretKey key) {
+        return new CipherOutputStream(outputStream, createBlockCipher(key, true));
+    }
+
+    public static InputStream decryptInputStream(InputStream inputStream, SecretKey key) {
+        return new CipherInputStream(inputStream, createBlockCipher(key, false));
+    }
+
+    public static BufferedBlockCipher createBlockCipher(SecretKey key, boolean out) {
+        BufferedBlockCipher blockCipher = new BufferedBlockCipher(new CFBBlockCipher(new AESFastEngine(), 8));
+        blockCipher.init(out, new ParametersWithIV(new KeyParameter(key.getEncoded()), key.getEncoded(), 0, 16));
+        return blockCipher;
     }
 
 }
