@@ -17,6 +17,6 @@ public interface Entity {
 
     public World getWorld();
 
-    public boolean isDead();
+    public boolean isValid();
 
 }
