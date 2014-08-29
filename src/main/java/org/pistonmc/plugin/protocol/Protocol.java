@@ -1,5 +1,6 @@
 package org.pistonmc.plugin.protocol;
 
+import io.netty.channel.ChannelHandlerContext;
 import org.pistonmc.Piston;
 import org.pistonmc.event.connection.ServerListPingEvent;
 import org.pistonmc.exception.protocol.IllegalProtocolException;
@@ -63,7 +64,7 @@ public abstract class Protocol extends JavaPlugin {
         }
     }
 
-    public abstract void handle(IncomingPacket packet) throws PacketException, IOException;
+    public abstract void handle(IncomingPacket packet, ChannelHandlerContext ctx) throws PacketException, IOException;
 
     public abstract Protocol create(PlayerConnection connection, ProtocolManager manager);
 
