@@ -68,6 +68,11 @@
             <artifactId>nbt</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>5.0.0.Alpha1</version>
+        </dependency>
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
