@@ -5,9 +5,9 @@ import org.pistonmc.entity.Entity;
 public class RegistryEntry<E extends Entity> {
 
     private Class<E> cls;
-    private Builder<E> builder;
+    private Builder<? extends E> builder;
 
-    public RegistryEntry(Class<E> cls, Builder<E> builder) {
+    public RegistryEntry(Class<E> cls, Builder<? extends E> builder) {
         this.cls = cls;
         this.builder = builder;
     }
@@ -16,7 +16,7 @@ public class RegistryEntry<E extends Entity> {
         return cls;
     }
 
-    public Builder<E> getBuilder() {
+    public Builder<? extends E> getBuilder() {
         return builder;
     }
 
