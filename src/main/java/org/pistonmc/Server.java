@@ -2,6 +2,7 @@ package org.pistonmc;
 
 import org.pistonmc.commands.CommandRegistry;
 import org.pistonmc.configuration.file.Config;
+import org.pistonmc.entity.builder.BuilderRegistry;
 import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.JavaPluginManager;
@@ -20,6 +21,8 @@ public interface Server {
     public EventManager getEventManager();
 
     public CommandRegistry getCommandRegistry();
+
+    public BuilderRegistry getBuilderRegistry();
 
     public void shutdown();
 
