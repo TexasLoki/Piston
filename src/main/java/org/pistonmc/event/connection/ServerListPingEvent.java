@@ -47,6 +47,10 @@ public class ServerListPingEvent extends Event implements Cancellable {
         this.protocolVersion = protocolVersion;
     }
 
+    public boolean isAccessible() {
+        return realProtocolVersion == protocolVersion || protocolVersion > 0;
+    }
+
     public void setAccessible(boolean accessible) {
         setProtocolVersion(accessible ? realProtocolVersion : -1);
     }
