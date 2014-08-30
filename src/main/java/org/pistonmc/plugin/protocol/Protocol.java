@@ -11,13 +11,14 @@ import org.pistonmc.protocol.packet.IncomingPacket;
 import org.pistonmc.protocol.packet.ProtocolState;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Protocol extends JavaPlugin {
 
-    private Map<ProtocolState, Map<Integer, Class<? extends IncomingPacket>>> packets;
+    private Map<ProtocolState, Map<Integer, Constructor<? extends IncomingPacket>>> packets;
     private Protocol parent;
     protected int version;
     protected PlayerConnection connection;
@@ -26,7 +27,7 @@ public abstract class Protocol extends JavaPlugin {
         this.version = version;
         packets = new HashMap<>();
         for (ProtocolState state : ProtocolState.values()) {
-            packets.put(state, new HashMap<Integer, Class<? extends IncomingPacket>>());
+            packets.put(state, new HashMap<Integer, Constructor<? extends IncomingPacket>>());
         }
     }
 
@@ -42,7 +43,7 @@ public abstract class Protocol extends JavaPlugin {
         this.connection = connection;
     }
 
-    public Map<ProtocolState, Map<Integer, Class<? extends IncomingPacket>>> getPackets() {
+    public Map<ProtocolState, Map<Integer, Constructor<? extends IncomingPacket>>> getPackets() {
         return parent != null ? parent.getPackets() : packets;
     }
 
@@ -50,19 +51,23 @@ public abstract class Protocol extends JavaPlugin {
         if (parent != null) {
             parent.add(packet);
         } else {
-            packets.get(packet.getState()).put(packet.getId(), packet.getClass());
+            try {
+                packets.get(packet.getState()).put(packet.getId(), packet.getClass().getConstructor());
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
-    public Class<? extends IncomingPacket> find(ProtocolState state, int id) {
+    public Constructor<? extends IncomingPacket> find(ProtocolState state, int id) {
         return parent != null ? parent.find(state, id) : packets.get(state).get(id);
     }
 
     public IncomingPacket create(ProtocolState state, int id) throws IllegalProtocolException {
-        Class<? extends IncomingPacket> cls = find(state, id);
+        Constructor<? extends IncomingPacket> constructor = find(state, id);
 
         try {
-            return cls.getConstructor().newInstance();
+            return constructor.newInstance();
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new IllegalProtocolException(version, "Could not find " + state.name() + " Packet with id #" + id);
