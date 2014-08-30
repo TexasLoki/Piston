@@ -8,6 +8,6 @@ public interface BuilderRegistry {
 
     public <E extends Entity> Builder<E> get(Class<E> type);
 
-    public <E extends Entity> void register(Builder<E> builder);
+    public <E extends Entity> void register(Class<E> cls, Builder<E> builder);
 
 }
