@@ -51,6 +51,10 @@ public interface Configuration {
 
     public void setList(String path, List value);
 
+    public File getFile(String path);
+
+    public void setFile(String path, File value);
+
     public void fromMap(Map<?, ?> map);
 
     public Map<String, Object> asMap();

@@ -200,6 +200,18 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         set(path, value);
     }
 
+    public File getFile(String path) {
+        try {
+            return new File(getString(path));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setFile(String path, File value) {
+        set(path, value.getPath());
+    }
+
     public ConfigurationSection getSection(String path) {
         return getSection(get(path));
     }
