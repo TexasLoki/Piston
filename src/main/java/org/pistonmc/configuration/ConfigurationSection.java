@@ -78,6 +78,12 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
     }
 
     public <T> Map<String, T> getValues(Class<T> cls) {
+        return getValues(cls, "");
+    }
+
+    public <T> Map<String, T> getValues(Class<T> cls, String include) {
+        include = include == null ? "" : include;
+
         Map<String, T> values = new HashMap<>();
         for (Entry<String, Object> entry : entrySet()) {
             String key = entry.getKey();
@@ -85,7 +91,7 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
 
             try {
                 T val = (T) value;
-                values.put(key, val);
+                values.put(include + key, val);
             } catch (ClassCastException ex) {
                 /* ignored */
             }
@@ -95,7 +101,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
     }
 
     public <T> Map<String, T> getValues(String path, Class<T> cls) {
-        return getSection(path).getValues(cls);
+        return getValues(path, cls, false);
+    }
+
+    public <T> Map<String, T> getValues(String path, Class<T> cls, boolean include) {
+        return getSection(path).getValues(cls, include ? path : null);
     }
 
     public String getString(String path) {

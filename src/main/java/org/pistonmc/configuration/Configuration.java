@@ -20,6 +20,8 @@ public interface Configuration {
 
     public <T> Map<String, T> getValues(String path, Class<T> cls);
 
+    public <T> Map<String, T> getValues(String path, Class<T> cls, boolean include);
+
     public String getString(String path);
 
     public String getString(String path, String def);
