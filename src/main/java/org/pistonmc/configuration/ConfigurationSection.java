@@ -2,6 +2,7 @@ package org.pistonmc.configuration;
 
 import org.pistonmc.exception.configuration.IllegalConfigurationPathException;
 
+import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
@@ -105,6 +106,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
+    public String getString(String path, String def) {
+        String value = getString(path);
+        return value != null ? value : def;
+    }
+
     public void setString(String path, String value) {
         set(path, value);
     }
@@ -115,6 +121,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public boolean getBoolean(String path, boolean def) {
+        Boolean value = getBoolean(path);
+        return value != null ? value : def;
     }
 
     public void setBoolean(String path, boolean value) {
@@ -129,6 +140,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
+    public int getInteger(String path, int def) {
+        Integer value = getInteger(path);
+        return value != null ? value : def;
+    }
+
     public void setInteger(String path, int value) {
         set(path, value);
     }
@@ -139,6 +155,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public double getDouble(String path, double def) {
+        Double value = getDouble(path);
+        return value != null ? value : def;
     }
 
     public void setDouble(String path, double value) {
@@ -153,6 +174,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
+    public float getFloat(String path, float def) {
+        Float value = getFloat(path);
+        return value != null ? value : def;
+    }
+
     public void setFloat(String path, float value) {
         set(path, value);
     }
@@ -163,6 +189,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public long getLong(String path, long def) {
+        Long value = getLong(path);
+        return value != null ? value : def;
     }
 
     public void setLong(String path, long value) {
@@ -184,6 +215,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
+    public List<String> getStringList(String path, List<String> def) {
+        List<String> value = getStringList(path);
+        return value != null ? value : def;
+    }
+
     public void setStringList(String path, List<String> value) {
         set(path, value);
     }
@@ -196,6 +232,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         }
     }
 
+    public List getList(String path, List def) {
+        List value = getList(path);
+        return value != null ? value : def;
+    }
+
     public void setList(String path, List value) {
         set(path, value);
     }
@@ -206,6 +247,11 @@ public class ConfigurationSection extends LinkedHashMap<String, Object> implemen
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public File getFile(String path, File def) {
+        File value = getFile(path);
+        return value != null ? value : def;
     }
 
     public void setFile(String path, File value) {
