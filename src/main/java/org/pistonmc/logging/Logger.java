@@ -82,7 +82,7 @@ public class Logger {
     }
 
     private Logger print(String message) {
-        System.out.println(message);
+        Logging.getWriter().write(message);
         return this;
     }
 

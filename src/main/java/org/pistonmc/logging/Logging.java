@@ -4,6 +4,7 @@ import static org.pistonmc.logging.LogLevel.INFO;
 
 public class Logging {
 
+    private static LogWriter writer;
     private static Logger global = getLogger((String) null);
 
     public static Logger getLogger(String name, Logger parent, LogLevel level) {
@@ -42,6 +43,10 @@ public class Logging {
 
     public static Logger getLogger() {
         return global;
+    }
+
+    public static LogWriter getWriter() {
+        return writer;
     }
 
 }
