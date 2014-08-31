@@ -15,7 +15,11 @@ public class ClassUtils {
     }
 
     public static String build(Object object, boolean all, String... excludes) {
-        return build(object.getClass(), object, all, excludes);
+        return build(object.getClass(), object, all, false, excludes);
+    }
+
+    public static String build(Object object, boolean all, boolean recursive, String... excludes) {
+        return build(object.getClass(), object, all, recursive, excludes);
     }
 
     public static String build(Class<?> clazz, Object object, String... excludes) {
@@ -23,8 +27,12 @@ public class ClassUtils {
     }
 
     public static String build(Class<?> clazz, Object object, boolean all, String... excludes) {
+        return build(clazz, object, all, false, excludes);
+    }
+
+    public static String build(Class<?> clazz, Object object, boolean all, boolean recursive, String... excludes) {
         try {
-            return buildThrows(clazz, object, all, excludes);
+            return buildThrows(clazz, object, all, recursive, excludes);
         } catch (IllegalAccessException illegal) {
             illegal.printStackTrace();
             return clazz.getSimpleName() + "{class=" + clazz.getName() + "}";
@@ -35,7 +43,12 @@ public class ClassUtils {
         return buildThrows(clazz, object, false, excludes);
     }
 
+
     private static String buildThrows(Class<?> clazz, Object object, boolean all, String... excludes) throws IllegalAccessException {
+        return buildThrows(clazz, object, all, false, excludes);
+    }
+
+    private static String buildThrows(Class<?> clazz, Object object, boolean all, boolean recursive, String... excludes) throws IllegalAccessException {
         List<String> exclude = Lists.newArrayList(excludes);
         StringBuilder string = new StringBuilder();
         string.append(clazz.getSimpleName()).append("{");
@@ -64,6 +77,10 @@ public class ClassUtils {
                             objects.add(Array.get(value, i));
                         }
                         value = objects;
+                    }
+
+                    if(recursive) {
+                        value = ClassUtils.buildThrows(value.getClass(), value, all, recursive, excludes);
                     }
 
                     string.append(field.getName()).append("=").append("[").append(value != null ? value : "null").append(ChatColor.RESET).append("]");

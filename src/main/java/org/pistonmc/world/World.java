@@ -4,20 +4,19 @@ import org.pistonmc.entity.Entity;
 import org.pistonmc.entity.LivingEntity;
 import org.pistonmc.entity.Player;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
 public interface World {
 
-    public UUID getUniqueId();
+    public File getFolder();
 
     public String getName();
 
     public List<Entity> getEntities();
-
-    public List<LivingEntity> getLivingEntities();
-
-    public List<Player> getPlayers();
+    
+    public <T extends Entity> List<T> getEntities(Class<T> cls);
 
     public Chunk getChunk(int x, int z);
 

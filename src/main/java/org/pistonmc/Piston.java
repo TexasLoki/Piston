@@ -7,6 +7,7 @@ import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.JavaPluginManager;
 import org.pistonmc.plugin.protocol.ProtocolManager;
+import org.pistonmc.world.WorldManager;
 
 import java.io.File;
 
@@ -31,6 +32,10 @@ public class Piston {
         return server.getConfig();
     }
 
+    public static EventManager getEventManager() {
+        return server.getEventManager();
+    }
+
     public static ProtocolManager getProtocolManager() {
         return server.getProtocolManager();
     }
@@ -39,8 +44,8 @@ public class Piston {
         return server.getPluginManager();
     }
 
-    public static EventManager getEventManager() {
-        return server.getEventManager();
+    public static WorldManager getWorldManager() {
+        return server.getWorldManager();
     }
 
     public static CommandRegistry getCommandRegistry() {
