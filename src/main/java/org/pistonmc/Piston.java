@@ -65,4 +65,8 @@ public class Piston {
         server.shutdown();
     }
 
+    public static void shutdown(String message) {
+        server.shutdown(message);
+    }
+
 }

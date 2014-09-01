@@ -32,4 +32,6 @@ public interface Server {
 
     public void shutdown();
 
+    public void shutdown(String message);
+
 }
