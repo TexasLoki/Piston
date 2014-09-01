@@ -7,6 +7,7 @@ import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.JavaPluginManager;
 import org.pistonmc.plugin.protocol.ProtocolManager;
+import org.pistonmc.scheduler.PistonScheduler;
 import org.pistonmc.world.WorldManager;
 
 public interface Server {
@@ -14,6 +15,8 @@ public interface Server {
     public Logger getLogger();
 
     public Config getConfig();
+
+    public PistonScheduler getScheduler();
 
     public EventManager getEventManager();
 

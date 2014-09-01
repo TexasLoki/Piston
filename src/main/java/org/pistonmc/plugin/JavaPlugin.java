@@ -1,5 +1,7 @@
 package org.pistonmc.plugin;
 
+import org.pistonmc.Piston;
+import org.pistonmc.Server;
 import org.pistonmc.configuration.file.Config;
 import org.pistonmc.logging.Logger;
 
@@ -96,6 +98,10 @@ public class JavaPlugin implements Plugin {
 
     public void saveConfig() {
         config.save();
+    }
+
+    public Server getServer() {
+        return Piston.getServer();
     }
 
 }

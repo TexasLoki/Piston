@@ -7,6 +7,7 @@ import org.pistonmc.event.EventManager;
 import org.pistonmc.logging.Logger;
 import org.pistonmc.plugin.JavaPluginManager;
 import org.pistonmc.plugin.protocol.ProtocolManager;
+import org.pistonmc.scheduler.PistonScheduler;
 import org.pistonmc.world.WorldManager;
 
 import java.io.File;
@@ -30,6 +31,10 @@ public class Piston {
 
     public static Config getConfig() {
         return server.getConfig();
+    }
+
+    public static PistonScheduler getScheduler() {
+        return server.getScheduler();
     }
 
     public static EventManager getEventManager() {
