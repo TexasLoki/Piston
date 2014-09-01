@@ -106,9 +106,9 @@ public class Schedule {
 
 	public void run() {
 		if(async) {
-			plugin.getServer().getScheduler().runAsync(run);
+			plugin.getServer().getScheduler().runAsync(plugin, run);
 		} else {
-			plugin.getServer().getScheduler().run(run);
+			plugin.getServer().getScheduler().run(plugin, run);
 		}
 	}
 
