@@ -11,12 +11,12 @@ public class LogWriter {
         this.runnables = new ArrayList<>();
     }
 
-    public List<Runnable> getRunnables() {
+    public synchronized List<Runnable> getRunnables() {
         return runnables;
     }
 
     public void write(final String message) {
-        runnables.add(new Runnable() {
+        getRunnables().add(new Runnable() {
             @Override
             public void run() {
                 System.out.println(message);

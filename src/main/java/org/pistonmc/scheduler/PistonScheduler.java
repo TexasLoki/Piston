@@ -44,4 +44,6 @@ public interface PistonScheduler {
 
     public void cancel(int id);
 
+    public void cancel(Plugin plugin);
+
 }
