@@ -17,6 +17,10 @@ public class PrioritisedMethods<E extends Event> {
         }
     }
 
+    public Map<EventPriority, List<EventMethod<E>>> getMethods() {
+        return methods;
+    }
+
     public List<EventMethod<E>> getMethods(EventPriority priority) {
         return methods.get(priority);
     }

@@ -86,18 +86,12 @@ public class EventManager<E extends Event> {
                 }
             }
 
-            Map<EventPriority, List<EventMethod<E>>> priorityMap = new HashMap<>();
             for (EventPriority priority : EventPriority.values()) {
-                List<EventMethod<E>> list = new ArrayList<>();
                 for (PrioritisedMethods<E> method : methods) {
-                    list.addAll(method.getMethods(priority));
-                }
-                priorityMap.put(priority, list);
-            }
-
-            for (EventPriority priority : EventPriority.values()) {
-                for (EventMethod<E> method : priorityMap.get(priority)) {
-                    method.handle(event, logger);
+                    List<EventMethod<E>> list = method.getMethods(priority);
+                    for(EventMethod<E> method1 : list) {
+                        method1.handle(event, logger);
+                    }
                 }
             }
         } catch (Exception ex) {
