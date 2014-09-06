@@ -2,11 +2,14 @@ package org.pistonmc.protocol;
 
 import org.pistonmc.exception.protocol.packet.PacketException;
 import org.pistonmc.protocol.packet.OutgoingPacket;
+import org.pistonmc.protocol.packet.ProtocolState;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
 
 public interface PlayerConnection {
+
+    public ProtocolState getState();
 
     public void secure(SecretKey key);
 
