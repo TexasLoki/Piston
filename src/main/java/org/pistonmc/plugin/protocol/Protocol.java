@@ -97,4 +97,10 @@ public abstract class Protocol extends JavaPlugin {
         return event;
     }
 
+    public void disconnect() {
+        disconnect("Disconnected");
+    }
+
+    public abstract void disconnect(String message);
+
 }
